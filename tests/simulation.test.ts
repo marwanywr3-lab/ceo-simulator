@@ -17,6 +17,9 @@ function operating() {
   return execute(s, { type: "hire", candidate: 2 });
 }
 describe("authoritative economics", () => {
+  it("reports zero revenue without a negative-zero display", () => {
+    expect(Object.is(report(createState(input)).revenue, -0)).toBe(false);
+  });
   it("starts with cash only and balanced equity", () => {
     const s = createState(input);
     expect(s.cash).toBe(100000000);

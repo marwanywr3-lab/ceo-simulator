@@ -39,7 +39,7 @@ import {
 import { report, type State } from "../../packages/simulation";
 import "./style.css";
 import { Procurement, Tender, Delegation } from "./Operations";
-import { cacheSave } from "./cache";
+import { cacheSave, removeCachedSaves } from "./cache";
 import { Scene, asset } from "./Scene";
 import { GoogleSignIn } from "./GoogleSignIn";
 type Save = { id: string; revision: number; name: string; state: State };
@@ -125,6 +125,42 @@ function App() {
   const [phone, setPhone] = useState(false);
   const [running, setRunning] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
+  useEffect(() => {
+    if (!selected) return;
+    const dialog = document.querySelector<HTMLElement>('[role="dialog"]');
+    if (!dialog) return;
+    const previous = document.activeElement as HTMLElement | null;
+    const controls = () =>
+      Array.from(
+        dialog.querySelectorAll<HTMLElement>(
+          'button:not([disabled]),input:not([disabled]),select:not([disabled]),[tabindex="0"]',
+        ),
+      );
+    controls()[0]?.focus();
+    const keyboard = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setSelected(null);
+      }
+      if (event.key === "Tab") {
+        const items = controls(),
+          first = items[0],
+          last = items[items.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
+      }
+    };
+    document.addEventListener("keydown", keyboard);
+    return () => {
+      document.removeEventListener("keydown", keyboard);
+      previous?.focus();
+    };
+  }, [selected]);
   useEffect(() => {
     if (save) cacheSave(save.id, save);
   }, [save]);
@@ -244,6 +280,7 @@ function App() {
             return (
               <button
                 key={x}
+                aria-label={ar ? x : navEn[i]}
                 className={page === i ? "active" : ""}
                 onClick={() => {
                   setPage(i);
@@ -1135,6 +1172,47 @@ function App() {
                       "This is a fictional simulation, not a real government or banking service.",
                     )}
                   </p>
+                  <hr />
+                  <h3>
+                    {t("حذف الحساب والبيانات", "Delete account and data")}
+                  </h3>
+                  <p className="muted">
+                    {t(
+                      "يحذف الحساب وجميع مسيراته ورسائله وملفات الحفظ نهائيًا.",
+                      "Permanently deletes the account, all careers, messages and saves.",
+                    )}
+                  </p>
+                  <button
+                    className="danger"
+                    disabled={busy}
+                    onClick={async () => {
+                      if (
+                        !window.confirm(
+                          t(
+                            "سيُحذف هذا الحساب وجميع مسيراته وبياناته نهائيًا. هل تريد المتابعة؟",
+                            "This account and all its careers and data will be permanently deleted. Continue?",
+                          ),
+                        )
+                      )
+                        return;
+                      setBusy(true);
+                      setRunning(false);
+                      try {
+                        const owned = await api<{ id: string }[]>("/careers");
+                        await api("/account", "DELETE");
+                        setToken("");
+                        setSave(null);
+                        qc.clear();
+                        await removeCachedSaves(owned.map((c) => c.id));
+                      } catch (e) {
+                        setError((e as Error).message);
+                      } finally {
+                        setBusy(false);
+                      }
+                    }}
+                  >
+                    {t("حذف الحساب نهائيًا", "Permanently delete account")}
+                  </button>
                 </section>
               </div>
             )}

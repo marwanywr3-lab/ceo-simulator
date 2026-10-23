@@ -124,7 +124,7 @@ export function report(s: State) {
   for (const e of s.journal)
     for (const l of e.lines)
       balances[l.account] = (balances[l.account] || 0) + l.debit - l.credit;
-  const revenue = -(balances.revenue || 0);
+  const revenue = 0 - (balances.revenue || 0);
   const expenses = Object.entries(balances)
     .filter(([k]) => k.startsWith("expense"))
     .reduce((a, [, v]) => a + v, 0);
