@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-23",
+  "target": "https://marwanywr3-lab.github.io/ceo-simulator/",
+  "commit": "a9dd0e1913fa9827fc16a735f1882fe1d95354e7",
+  "method": "Interactive browser review; not a persisted automated test suite",
+  "passed": [
+    "Email registration and login without verification email",
+    "Company creation, rent, equipment and CFO hire",
+    "Rename employee with preserved identity and memory",
+    "Message persists after page reload and new login",
+    "Create snapshot, advance day, restore snapshot",
+    "Arabic RTL and English LTR",
+    "Mobile 390x844 no horizontal overflow",
+    "Portrait office image keeps native aspect ratio",
+    "Real HTML NPC buttons without portrait images",
+    "Phone shares financial reports",
+    "Balanced ledger and zero revenue formatting",
+    "Modal Escape and focus restoration",
+    "Accessible names on mobile navigation"
+  ],
+  "uiTestAccountCleanup": {
+    "deleted": true,
+    "sessionInvalidated": true,
+    "loginDenied": true,
+    "method": "Authenticated API deletion after browser confirmation tool stalled",
+    "authorization": "Explicit user approval for creating and deleting isolated test data"
+  }
+}
