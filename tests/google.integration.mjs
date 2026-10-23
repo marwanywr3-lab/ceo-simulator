@@ -9,6 +9,8 @@ const request = async (path, body, token) => {
     method: body === undefined ? "GET" : "POST",
     headers: {
       "Content-Type": "application/json",
+      // Local-only fixture: isolate this client's quota from the preceding API suite.
+      "CF-Connecting-IP": "192.0.2.250",
       ...(token ? { Authorization: "Bearer " + token } : {}),
     },
     body: body === undefined ? undefined : JSON.stringify(body),

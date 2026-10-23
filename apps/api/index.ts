@@ -174,7 +174,7 @@ async function route(req: Request, env: Env): Promise<Response> {
         return json(
           {
             error:
-              "Use your existing email/password account. Automatic account linking is disabled.",
+              "هذا البريد مسجل بالفعل. ادخل بالبريد وكلمة المرور، ثم اربط Google من الإعدادات لحماية مسيراتك. / Sign in with your existing password, then link Google in Settings.",
           },
           409,
         );
