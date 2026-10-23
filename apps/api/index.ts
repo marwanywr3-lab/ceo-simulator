@@ -1,4 +1,4 @@
-import { verifyGoogle } from "./google";
+import { verifyGoogle, canRecoverGoogleEmail } from "./google";
 import { equalSecret, readLimitedBody, PayloadTooLarge } from "./security";
 import { careerInput, credentials, commandInput } from "../../packages/shared";
 import { z } from "zod";
@@ -91,6 +91,8 @@ async function route(req: Request, env: Env): Promise<Response> {
         "POST /auth/logout-all",
         "POST /account/google/challenge",
         "POST /account/google/link",
+        "POST /auth/google/recovery/challenge",
+        "POST /auth/google/recovery",
         "GET /careers/:id/reports?fromDay=0&toDay=30",
         "GET /careers/:id/audit",
         "GET /careers/:id/export",
@@ -110,10 +112,17 @@ async function route(req: Request, env: Env): Promise<Response> {
       googleClientId: env.GOOGLE_CLIENT_ID || null,
       emailVerification: false,
     });
-  if (path === "/api/auth/google/challenge" && req.method === "POST") {
+  if (
+    [
+      "/api/auth/google/challenge",
+      "/api/auth/google/recovery/challenge",
+    ].includes(path) &&
+    req.method === "POST"
+  ) {
     if (!env.GOOGLE_CLIENT_ID)
       return json({ error: "Google sign-in is not configured" }, 503);
-    const id = crypto.randomUUID(),
+    const id =
+        (path.includes("/recovery/") ? "recover:" : "") + crypto.randomUUID(),
       nonce = crypto.randomUUID();
     await env.DB.prepare("DELETE FROM auth_challenges WHERE expires_at<?")
       .bind(now)
@@ -123,7 +132,11 @@ async function route(req: Request, env: Env): Promise<Response> {
       .run();
     return json({ id, nonce });
   }
-  if (path === "/api/auth/google" && req.method === "POST") {
+  if (
+    ["/api/auth/google", "/api/auth/google/recovery"].includes(path) &&
+    req.method === "POST"
+  ) {
+    const recovery = path.endsWith("/recovery");
     if (!env.GOOGLE_CLIENT_ID)
       return json({ error: "Google sign-in is not configured" }, 503);
     const input = (await req.json()) as {
@@ -134,7 +147,9 @@ async function route(req: Request, env: Env): Promise<Response> {
       typeof input.credential !== "string" ||
       input.credential.length > 12000 ||
       typeof input.challenge !== "string" ||
-      !/^[a-f0-9-]{36}$/.test(input.challenge)
+      !(recovery ? /^recover:[a-f0-9-]{36}$/ : /^[a-f0-9-]{36}$/).test(
+        input.challenge,
+      )
     )
       return json({ error: "Invalid Google response" }, 400);
     const challenge = await env.DB.prepare(
@@ -153,6 +168,14 @@ async function route(req: Request, env: Env): Promise<Response> {
     } catch {
       return json({ error: "Google sign-in failed" }, 401);
     }
+    if (recovery && !canRecoverGoogleEmail(identity.email))
+      return json(
+        {
+          error:
+            "استعادة Google متاحة لبريد Gmail الموثق فقط. / Recovery requires a verified Gmail identity.",
+        },
+        403,
+      );
     const used = await env.DB.prepare(
       "DELETE FROM auth_challenges WHERE id=? RETURNING id",
     )
@@ -164,37 +187,89 @@ async function route(req: Request, env: Env): Promise<Response> {
     )
       .bind("google", identity.subject)
       .first<{ user_id: string }>();
+    if (recovery && linked) {
+      const target = await env.DB.prepare("SELECT id FROM users WHERE email=?")
+        .bind(identity.email)
+        .first<{ id: string }>();
+      if (target?.id !== linked.user_id)
+        return json(
+          {
+            error:
+              "هذه الهوية مرتبطة بحساب آخر. استخدم الدخول العادي. / This identity is linked to another account; use regular sign-in.",
+          },
+          409,
+        );
+    }
     if (!linked) {
       const existing = await env.DB.prepare(
         "SELECT id FROM users WHERE email=?",
       )
         .bind(identity.email)
-        .first();
-      if (existing)
-        return json(
-          {
-            error:
-              "هذا البريد مسجل بالفعل. ادخل بالبريد وكلمة المرور، ثم اربط Google من الإعدادات لحماية مسيراتك. / Sign in with your existing password, then link Google in Settings.",
-          },
-          409,
-        );
-      const uid = crypto.randomUUID();
+        .first<{ id: string }>();
+      if (existing) {
+        if (!recovery)
+          return json(
+            {
+              error:
+                "هذا البريد مسجل بالفعل. ادخل بكلمة المرور واربط Google من الإعدادات، أو اختر استعادة الحساب عبر Google لبريد Gmail. / Sign in with your password and link Google in Settings, or choose Gmail account recovery.",
+            },
+            409,
+          );
+        await env.DB.prepare(
+          "INSERT OR IGNORE INTO oauth_identities VALUES(?,?,?)",
+        )
+          .bind("google", identity.subject, existing.id)
+          .run();
+        linked = await env.DB.prepare(
+          "SELECT user_id FROM oauth_identities WHERE provider=? AND subject=?",
+        )
+          .bind("google", identity.subject)
+          .first<{ user_id: string }>();
+        if (linked?.user_id !== existing.id)
+          return json(
+            { error: "Google identity is already linked to another account" },
+            409,
+          );
+      } else {
+        if (recovery)
+          return json(
+            {
+              error:
+                "لا يوجد حساب سابق لهذا البريد؛ استخدم دخول Google العادي. / No existing account; use regular Google sign-in.",
+            },
+            404,
+          );
+        const uid = crypto.randomUUID();
+        await env.DB.batch([
+          env.DB.prepare("INSERT INTO users VALUES(?,?,?,?,?)").bind(
+            uid,
+            identity.email,
+            await hash(crypto.randomUUID()),
+            crypto.randomUUID(),
+            now,
+          ),
+          env.DB.prepare("INSERT INTO oauth_identities VALUES(?,?,?)").bind(
+            "google",
+            identity.subject,
+            uid,
+          ),
+        ]);
+        linked = { user_id: uid };
+      }
+    }
+    if (recovery)
       await env.DB.batch([
-        env.DB.prepare("INSERT INTO users VALUES(?,?,?,?,?)").bind(
-          uid,
-          identity.email,
-          await hash(crypto.randomUUID()),
+        env.DB.prepare("DELETE FROM auth_sessions WHERE user_id=?").bind(
+          linked!.user_id,
+        ),
+        env.DB.prepare("INSERT INTO audit_logs VALUES(?,?,?,?,?)").bind(
           crypto.randomUUID(),
+          linked!.user_id,
+          null,
+          "google_account_recovery",
           now,
         ),
-        env.DB.prepare("INSERT INTO oauth_identities VALUES(?,?,?)").bind(
-          "google",
-          identity.subject,
-          uid,
-        ),
       ]);
-      linked = { user_id: uid };
-    }
     const token = crypto.randomUUID() + crypto.randomUUID();
     await env.DB.prepare("INSERT INTO auth_sessions VALUES(?,?,?)")
       .bind(await hash(token), linked.user_id, now + 86400000)

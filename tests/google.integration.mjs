@@ -65,6 +65,32 @@ await check("unknown challenges cannot be substituted", async () => {
     401,
   );
 });
+await check(
+  "recovery uses purpose-bound challenges and rejects forged identity",
+  async () => {
+    const r = await request("/auth/google/recovery/challenge", {});
+    assert.equal(r.status, 200);
+    assert.ok(r.body.id.startsWith("recover:"));
+    assert.equal(
+      (
+        await request("/auth/google/recovery", {
+          challenge: r.body.id,
+          credential: "forged",
+        })
+      ).status,
+      401,
+    );
+    assert.equal(
+      (
+        await request("/auth/google", {
+          challenge: r.body.id,
+          credential: "forged",
+        })
+      ).status,
+      400,
+    );
+  },
+);
 await check("account linking requires an authenticated session", async () => {
   assert.equal((await request("/account/google/challenge", {})).status, 401);
   await request("/auth/register", credentials);

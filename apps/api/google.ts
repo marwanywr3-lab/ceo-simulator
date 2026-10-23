@@ -2,6 +2,11 @@ import { createRemoteJWKSet, jwtVerify, type JWTVerifyGetKey } from "jose";
 const keys = createRemoteJWKSet(
   new URL("https://www.googleapis.com/oauth2/v3/certs"),
 );
+// Google is authoritative for Gmail. Third-party Google account emails are not
+// sufficient proof of current mailbox ownership for recovering a legacy account.
+export function canRecoverGoogleEmail(email: string) {
+  return /^[^@\s]+@gmail\.com$/.test(email.toLowerCase());
+}
 export async function verifyGoogle(
   credential: string,
   clientId: string,

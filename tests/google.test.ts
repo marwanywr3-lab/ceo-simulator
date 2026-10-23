@@ -1,6 +1,9 @@
 import { beforeAll, describe, it, expect } from "vitest";
 import { generateKeyPair, SignJWT } from "jose";
-import { verifyGoogleWithKeys } from "../apps/api/google";
+import {
+  verifyGoogleWithKeys,
+  canRecoverGoogleEmail,
+} from "../apps/api/google";
 let pair: Awaited<ReturnType<typeof generateKeyPair>>;
 beforeAll(async () => {
   pair = await generateKeyPair("RS256");
@@ -21,6 +24,16 @@ async function credential(overrides: Record<string, unknown> = {}) {
     .sign(pair.privateKey);
 }
 describe("Google identity cryptographic validation", () => {
+  it("recovery trusts Gmail ownership only, never third-party or lookalike emails", () => {
+    expect(canRecoverGoogleEmail("owner@gmail.com")).toBe(true);
+    for (const email of [
+      "owner@example.com",
+      "owner@gmail.com.attacker.test",
+      "owner@googlemail.com",
+      "a@b@gmail.com",
+    ])
+      expect(canRecoverGoogleEmail(email)).toBe(false);
+  });
   it("accepts a signed verified identity with the correct audience and nonce", async () => {
     expect(
       await verifyGoogleWithKeys(

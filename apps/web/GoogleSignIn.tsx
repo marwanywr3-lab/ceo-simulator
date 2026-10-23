@@ -35,8 +35,10 @@ export function GoogleSignIn({
   callbacks.current = { onToken, onError, onLinked };
   const [generation, setGeneration] = useState(0);
   const [failed, setFailed] = useState(false);
+  const [recovery, setRecovery] = useState(false);
   useEffect(() => {
     let cancelled = false;
+    ref.current?.replaceChildren();
     async function start() {
       try {
         const config = (await (
@@ -49,7 +51,9 @@ export function GoogleSignIn({
           base +
             (token
               ? "/api/account/google/challenge"
-              : "/api/auth/google/challenge"),
+              : recovery
+                ? "/api/auth/google/recovery/challenge"
+                : "/api/auth/google/challenge"),
           {
             method: "POST",
             headers: {
@@ -84,7 +88,11 @@ export function GoogleSignIn({
               try {
                 const response = await fetch(
                   base +
-                    (token ? "/api/account/google/link" : "/api/auth/google"),
+                    (token
+                      ? "/api/account/google/link"
+                      : recovery
+                        ? "/api/auth/google/recovery"
+                        : "/api/auth/google"),
                   {
                     method: "POST",
                     headers: {
@@ -136,8 +144,10 @@ export function GoogleSignIn({
           { once: true },
         );
       } catch (e) {
-        if (!cancelled) callbacks.current.onError((e as Error).message);
-        setFailed(true);
+        if (!cancelled) {
+          callbacks.current.onError((e as Error).message);
+          setFailed(true);
+        }
       }
     }
     setFailed(false);
@@ -147,10 +157,30 @@ export function GoogleSignIn({
       cancelled = true;
       clearInterval(refresh);
     };
-  }, [base, token, generation, ar]);
+  }, [base, token, generation, ar, recovery]);
   return (
     <div className="google-signin">
       <div ref={ref} />
+      {!token && configured && (
+        <>
+          <button className="secondary" onClick={() => setRecovery((v) => !v)}>
+            {recovery
+              ? ar
+                ? "العودة لدخول Google العادي"
+                : "Return to regular Google sign-in"
+              : ar
+                ? "نسيت كلمة المرور؟ استعادة الحساب عبر Google"
+                : "Forgot password? Recover with Google"}
+          </button>
+          {recovery && (
+            <p className="muted">
+              {ar
+                ? "اختر زر Google أعلاه بحساب Gmail نفسه. تُربط الهوية الموثقة بحسابك الموجود وتُنهى الجلسات القديمة، مع بقاء مسيراتك."
+                : "Use the Google button above with the same Gmail account. Verified ownership links your existing account and revokes old sessions while keeping your careers."}
+            </p>
+          )}
+        </>
+      )}
       {failed && (
         <button
           className="secondary"
