@@ -13,6 +13,7 @@
   ],
   "vars": {
     "ALLOWED_ORIGIN": "https://marwanywr3-lab.github.io",
+    "GOOGLE_CLIENT_ID": "529062820222-3pt94t92jfkdlvdo0s26fkno2f9i1ms5.apps.googleusercontent.com",
   },
   "observability": {
     "enabled": true,

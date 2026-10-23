@@ -42,6 +42,13 @@ import { Procurement, Tender, Delegation } from "./Operations";
 import { cacheSave, removeCachedSaves } from "./cache";
 import { Scene, asset } from "./Scene";
 import { GoogleSignIn } from "./GoogleSignIn";
+import {
+  PeopleOperations,
+  SupplyChain,
+  ProjectOperations,
+  CustomerOperations,
+  Statements,
+} from "./BusinessPanels";
 type Save = { id: string; revision: number; name: string; state: State };
 const useUI = create<{
   lang: "ar" | "en";
@@ -124,6 +131,7 @@ function App() {
   const [notice, setNotice] = useState("");
   const [phone, setPhone] = useState(false);
   const [running, setRunning] = useState(false);
+  const [deleteConfirmation, setDeleteConfirmation] = useState("");
   const [selected, setSelected] = useState<string | null>(null);
   useEffect(() => {
     if (!selected) return;
@@ -179,6 +187,15 @@ function App() {
     queryFn: () =>
       api<{ id: string; name: string; revision: number }[]>("/careers"),
     enabled: !!token,
+  });
+  const account = useQuery<{
+    account: { email: string };
+    providers: { provider: string }[];
+    sessions: { count: number };
+  }>({
+    queryKey: ["account", token],
+    queryFn: () => api("/account"),
+    enabled: !!token && page === 8,
   });
   const snapshots = useQuery<
     { id: string; revision: number; created_at: number }[]
@@ -707,6 +724,7 @@ function App() {
             )}
             {page === 1 && (
               <>
+                <PeopleOperations s={s!} ar={ar} act={act} />
                 <section className="panel">
                   <h2>{t("الفريق الحالي", "Current team")}</h2>
                   {s!.employees.length === 0 && (
@@ -762,6 +780,7 @@ function App() {
             )}
             {page === 2 && (
               <>
+                <SupplyChain s={s!} ar={ar} act={act} />
                 <Procurement s={s!} ar={ar} act={act} />
                 <section className="panel">
                   <h2>{t("مختبر المنتجات", "Product studio")}</h2>
@@ -838,6 +857,8 @@ function App() {
             )}
             {page === 3 && (
               <>
+                <ProjectOperations s={s!} ar={ar} act={act} />
+                <CustomerOperations s={s!} ar={ar} act={act} />
                 <Tender s={s!} ar={ar} act={act} />
                 <section className="panel">
                   <h2>{t("عقود الخدمات", "Service contracts")}</h2>
@@ -924,11 +945,16 @@ function App() {
                     )}
                     {money(s!.unpaidPayroll)}
                   </p>
+                  {s!.unpaidPayroll > 0 &&
+                    button(t("سداد المستحقات الآن", "Settle liabilities now"), {
+                      type: "pay_due",
+                    })}
                 </section>
               </div>
             )}
             {page === 5 && (
               <>
+                <Statements s={s!} ar={ar} />
                 <div className="metrics">
                   {[
                     [t("الأصول", "Assets"), r!.assets],
@@ -1173,6 +1199,65 @@ function App() {
                     )}
                   </p>
                   <hr />
+                  <h3>{t("الحساب والمزامنة", "Account & sync")}</h3>
+                  <p>{account.data?.account.email}</p>
+                  <p>
+                    {t("الجلسات النشطة: ", "Active sessions: ")}
+                    {account.data?.sessions.count ?? "…"}
+                  </p>
+                  {account.data?.providers.some(
+                    (p) => p.provider === "google",
+                  ) ? (
+                    <p className="success">
+                      {t(
+                        "Google مرتبط بهذا الحساب",
+                        "Google is linked to this account",
+                      )}
+                    </p>
+                  ) : (
+                    <>
+                      <p className="muted">
+                        {t(
+                          "اربط Google بحسابك الحالي كي تستخدم المسيرات نفسها بالطريقتين.",
+                          "Link Google to your current account to use the same careers with either sign-in method.",
+                        )}
+                      </p>
+                      <GoogleSignIn
+                        base={API}
+                        token={token}
+                        ar={ar}
+                        onToken={setToken}
+                        onError={setError}
+                        onLinked={() => {
+                          void account.refetch();
+                          setNotice(
+                            t("تم ربط Google", "Google linked successfully"),
+                          );
+                        }}
+                      />
+                    </>
+                  )}
+                  <button
+                    className="secondary"
+                    disabled={busy}
+                    onClick={async () => {
+                      setBusy(true);
+                      try {
+                        await api("/auth/logout-all", "POST", {});
+                        setToken("");
+                        setSave(null);
+                        setRunning(false);
+                        qc.clear();
+                      } catch (e) {
+                        setError((e as Error).message);
+                      } finally {
+                        setBusy(false);
+                      }
+                    }}
+                  >
+                    {t("إنهاء جميع الجلسات", "Sign out all sessions")}
+                  </button>
+                  <hr />
                   <h3>
                     {t("حذف الحساب والبيانات", "Delete account and data")}
                   </h3>
@@ -1182,19 +1267,22 @@ function App() {
                       "Permanently deletes the account, all careers, messages and saves.",
                     )}
                   </p>
+                  <label>
+                    {t(
+                      "اكتب DELETE لتأكيد الحذف النهائي",
+                      "Type DELETE to confirm permanent deletion",
+                    )}
+                    <input
+                      value={deleteConfirmation}
+                      onChange={(e) => setDeleteConfirmation(e.target.value)}
+                      autoComplete="off"
+                    />
+                  </label>
                   <button
                     className="danger"
-                    disabled={busy}
+                    disabled={busy || deleteConfirmation !== "DELETE"}
                     onClick={async () => {
-                      if (
-                        !window.confirm(
-                          t(
-                            "سيُحذف هذا الحساب وجميع مسيراته وبياناته نهائيًا. هل تريد المتابعة؟",
-                            "This account and all its careers and data will be permanently deleted. Continue?",
-                          ),
-                        )
-                      )
-                        return;
+                      if (deleteConfirmation !== "DELETE") return;
                       setBusy(true);
                       setRunning(false);
                       try {

@@ -155,6 +155,77 @@ await check(
 );
 let other = "";
 await check(
+  "API command schema and authenticated account metadata",
+  async () => {
+    const schema = await request("/schema");
+    assert.equal(schema.status, 200);
+    assert.equal(schema.body.version, "0.3.0");
+    const account = await request("/account");
+    assert.equal(account.status, 200);
+    assert.equal(account.body.account.email, email);
+    assert.ok(!JSON.stringify(account.body).includes("password_hash"));
+  },
+);
+await check(
+  "training and supplier orders persist through real D1",
+  async () => {
+    for (const c of [
+      { type: "train", id: save.state.employees[0].id, days: 2 },
+      { type: "order", supplier: 1, quantity: 25 },
+      { type: "lead", name: "API customer", budget: 10000 },
+    ]) {
+      const r = await cmd(c);
+      assert.equal(r.status, 200);
+      save = r.body;
+    }
+    const loaded = (await request("/careers/" + save.id)).body;
+    assert.deepEqual(loaded.state.business, save.state.business);
+    assert.equal(loaded.state.employees[0].trainingGain, 4);
+  },
+);
+await check(
+  "server-generated reports reconcile to the stored ledger",
+  async () => {
+    const r = await request("/careers/" + save.id + "/reports");
+    assert.equal(r.status, 200);
+    assert.equal(r.body.balanceSheet.balanced, true);
+    assert.equal(r.body.cashFlow.closingCash, save.state.cash);
+    assert.equal(
+      (await request("/careers/" + save.id + "/reports?fromDay=-1")).status,
+      400,
+    );
+  },
+);
+await check(
+  "owned audit and save export use authoritative revision",
+  async () => {
+    const audit = await request("/careers/" + save.id + "/audit");
+    assert.equal(audit.status, 200);
+    assert.ok(audit.body.some((x) => x.action === "order"));
+    const exported = await request("/careers/" + save.id + "/export");
+    assert.equal(exported.status, 200);
+    assert.equal(exported.body.revision, save.revision);
+    assert.deepEqual(exported.body.state, save.state);
+  },
+);
+await check(
+  "new operational systems restore atomically with old systems",
+  async () => {
+    let r = await cmd({ type: "snapshot" });
+    save = r.body;
+    const before = structuredClone(save.state),
+      points = (await request("/careers/" + save.id + "/snapshots")).body;
+    r = await cmd({ type: "advance", minutes: 10080 });
+    assert.equal(r.status, 200);
+    save = r.body;
+    assert.equal(save.state.business.orders[0].status, "delivered");
+    r = await cmd({ type: "restore", id: points[0].id });
+    assert.equal(r.status, 200);
+    save = r.body;
+    assert.deepEqual(save.state, before);
+  },
+);
+await check(
   "concurrent identical retries apply once and both succeed",
   async () => {
     const revision = save.revision,
@@ -202,6 +273,23 @@ await check("CORS blocks unknown origins", async () => {
   });
   assert.equal(r.status, 403);
 });
+await check(
+  "reports, audit and export remain isolated between users",
+  async () => {
+    for (const suffix of ["reports", "audit", "export"])
+      assert.equal(
+        (
+          await request(
+            "/careers/" + save.id + "/" + suffix,
+            "GET",
+            undefined,
+            other,
+          )
+        ).status,
+        404,
+      );
+  },
+);
 await check("oversized body rejected", async () => {
   const r = await request("/careers", "POST", { payload: "x".repeat(20000) });
   assert.equal(r.status, 413);

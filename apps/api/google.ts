@@ -1,4 +1,4 @@
-import { createRemoteJWKSet, jwtVerify } from "jose";
+import { createRemoteJWKSet, jwtVerify, type JWTVerifyGetKey } from "jose";
 const keys = createRemoteJWKSet(
   new URL("https://www.googleapis.com/oauth2/v3/certs"),
 );
@@ -7,7 +7,15 @@ export async function verifyGoogle(
   clientId: string,
   nonce: string,
 ) {
-  const { payload } = await jwtVerify(credential, keys, {
+  return verifyGoogleWithKeys(credential, clientId, nonce, keys);
+}
+export async function verifyGoogleWithKeys(
+  credential: string,
+  clientId: string,
+  nonce: string,
+  key: CryptoKey | JWTVerifyGetKey,
+) {
+  const { payload } = await jwtVerify(credential, key, {
     issuer: ["https://accounts.google.com", "accounts.google.com"],
     audience: clientId,
     algorithms: ["RS256"],
@@ -15,6 +23,7 @@ export async function verifyGoogle(
   });
   if (
     payload.nonce !== nonce ||
+    typeof payload.sub !== "string" ||
     !payload.sub ||
     typeof payload.email !== "string" ||
     payload.email_verified !== true

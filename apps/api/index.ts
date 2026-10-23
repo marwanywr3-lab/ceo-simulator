@@ -1,6 +1,8 @@
 import { verifyGoogle } from "./google";
 import { equalSecret, readLimitedBody, PayloadTooLarge } from "./security";
 import { careerInput, credentials, commandInput } from "../../packages/shared";
+import { z } from "zod";
+import { financialStatements } from "../../packages/simulation/reports";
 import {
   createState,
   execute,
@@ -56,6 +58,7 @@ async function route(req: Request, env: Env): Promise<Response> {
   if (path === "/api/health")
     return json({
       ok: true,
+      version: "0.3.0",
       storage: "D1",
       ai: {
         enabled: false,
@@ -78,6 +81,26 @@ async function route(req: Request, env: Env): Promise<Response> {
     .first<{ count: number }>();
   if (rate && rate.count > limit)
     return json({ error: "Too many requests / طلبات كثيرة" }, 429);
+  if (path === "/api/schema" && req.method === "GET")
+    return json({
+      version: "0.3.0",
+      money: "integer halalas",
+      commands: z.toJSONSchema(commandInput),
+      endpoints: [
+        "GET /account",
+        "POST /auth/logout-all",
+        "POST /account/google/challenge",
+        "POST /account/google/link",
+        "GET /careers/:id/reports?fromDay=0&toDay=30",
+        "GET /careers/:id/audit",
+        "GET /careers/:id/export",
+      ],
+      envelope: {
+        id: "unique request ID",
+        revision: "current save revision",
+        command: "validated command",
+      },
+    });
   if (Math.random() < 0.02)
     await env.DB.prepare("DELETE FROM rate_limits WHERE expires_at<?")
       .bind(now)
@@ -110,7 +133,8 @@ async function route(req: Request, env: Env): Promise<Response> {
     if (
       typeof input.credential !== "string" ||
       input.credential.length > 12000 ||
-      typeof input.challenge !== "string"
+      typeof input.challenge !== "string" ||
+      !/^[a-f0-9-]{36}$/.test(input.challenge)
     )
       return json({ error: "Invalid Google response" }, 400);
     const challenge = await env.DB.prepare(
@@ -227,6 +251,91 @@ async function route(req: Request, env: Env): Promise<Response> {
     .first<{ user_id: string }>();
   if (!session) return json({ error: "سجّل الدخول / Sign in required" }, 401);
   const uid = session.user_id;
+  if (path === "/api/account" && req.method === "GET") {
+    const account = await env.DB.prepare(
+      "SELECT email,created_at FROM users WHERE id=?",
+    )
+      .bind(uid)
+      .first();
+    const providers = await env.DB.prepare(
+      "SELECT provider FROM oauth_identities WHERE user_id=?",
+    )
+      .bind(uid)
+      .all();
+    const sessions = await env.DB.prepare(
+      "SELECT COUNT(*) AS count FROM auth_sessions WHERE user_id=? AND expires_at>?",
+    )
+      .bind(uid, now)
+      .first();
+    return json({ account, providers: providers.results, sessions });
+  }
+  if (path === "/api/auth/logout-all" && req.method === "POST") {
+    await env.DB.prepare("DELETE FROM auth_sessions WHERE user_id=?")
+      .bind(uid)
+      .run();
+    return json({ ok: true });
+  }
+  if (path === "/api/account/google/challenge" && req.method === "POST") {
+    if (!env.GOOGLE_CLIENT_ID)
+      return json({ error: "Google sign-in is not configured" }, 503);
+    const id = uid + ":" + crypto.randomUUID(),
+      nonce = crypto.randomUUID();
+    await env.DB.prepare("DELETE FROM auth_challenges WHERE expires_at<?")
+      .bind(now)
+      .run();
+    await env.DB.prepare("INSERT INTO auth_challenges VALUES(?,?,?)")
+      .bind(id, nonce, now + 300000)
+      .run();
+    return json({ id, nonce });
+  }
+  if (path === "/api/account/google/link" && req.method === "POST") {
+    if (!env.GOOGLE_CLIENT_ID)
+      return json({ error: "Google sign-in is not configured" }, 503);
+    const input = z
+      .object({
+        challenge: z.string().max(100),
+        credential: z.string().max(12000),
+      })
+      .parse(await req.json());
+    if (!input.challenge.startsWith(uid + ":"))
+      return json({ error: "Invalid linking challenge" }, 401);
+    const challenge = await env.DB.prepare(
+      "SELECT nonce FROM auth_challenges WHERE id=? AND expires_at>?",
+    )
+      .bind(input.challenge, now)
+      .first<{ nonce: string }>();
+    if (!challenge) return json({ error: "Google challenge expired" }, 401);
+    let identity;
+    try {
+      identity = await verifyGoogle(
+        input.credential,
+        env.GOOGLE_CLIENT_ID,
+        challenge.nonce,
+      );
+    } catch {
+      return json({ error: "Google sign-in failed" }, 401);
+    }
+    const used = await env.DB.prepare(
+      "DELETE FROM auth_challenges WHERE id=? RETURNING id",
+    )
+      .bind(input.challenge)
+      .first();
+    if (!used) return json({ error: "Google challenge already used" }, 401);
+    await env.DB.prepare("INSERT OR IGNORE INTO oauth_identities VALUES(?,?,?)")
+      .bind("google", identity.subject, uid)
+      .run();
+    const linked = await env.DB.prepare(
+      "SELECT user_id FROM oauth_identities WHERE provider=? AND subject=?",
+    )
+      .bind("google", identity.subject)
+      .first<{ user_id: string }>();
+    if (linked?.user_id !== uid)
+      return json(
+        { error: "Google identity already belongs to another account" },
+        409,
+      );
+    return json({ ok: true });
+  }
   if (path === "/api/auth/logout" && req.method === "POST") {
     await env.DB.prepare("DELETE FROM auth_sessions WHERE token_hash=?")
       .bind(tokenHash)
@@ -259,7 +368,7 @@ async function route(req: Request, env: Env): Promise<Response> {
     }
   }
   const match = path.match(
-    /^\/api\/careers\/([^/]+)(?:\/(commands|snapshots))?$/,
+    /^\/api\/careers\/([^/]+)(?:\/(commands|snapshots|reports|audit|export))?$/,
   );
   if (match) {
     const id = match[1];
@@ -270,6 +379,43 @@ async function route(req: Request, env: Env): Promise<Response> {
       .first<Row>();
     if (!row) return json({ error: "Not found" }, 404);
     if (!match[2] && req.method === "GET") return json(view(row));
+    if (match[2] === "reports" && req.method === "GET") {
+      const s = JSON.parse(row.state) as State,
+        last = Math.floor(s.minute / 1440);
+      const from = z.coerce
+        .number()
+        .int()
+        .min(0)
+        .max(last)
+        .parse(url.searchParams.get("fromDay") || 0);
+      const to = z.coerce
+        .number()
+        .int()
+        .min(from)
+        .max(last)
+        .parse(url.searchParams.get("toDay") || last);
+      return json({
+        revision: row.revision,
+        ...financialStatements(s, from, to),
+      });
+    }
+    if (match[2] === "audit" && req.method === "GET")
+      return json(
+        (
+          await env.DB.prepare(
+            "SELECT action,created_at FROM audit_logs WHERE career_id=? AND user_id=? ORDER BY created_at DESC LIMIT 100",
+          )
+            .bind(id, uid)
+            .all()
+        ).results,
+      );
+    if (match[2] === "export" && req.method === "GET")
+      return json({
+        format: "ceo-simulator-save",
+        version: 1,
+        exportedAt: now,
+        ...view(row),
+      });
     if (match[2] === "snapshots" && req.method === "GET") {
       return json(
         (
@@ -355,7 +501,18 @@ async function route(req: Request, env: Env): Promise<Response> {
           attempt,
         ),
       ];
-      if (snapshot || ["loan", "fire", "branch"].includes(command.type))
+      if (
+        snapshot ||
+        [
+          "loan",
+          "fire",
+          "branch",
+          "project",
+          "cancel_project",
+          "cancel_order",
+          "promote",
+        ].includes(command.type)
+      )
         batch.push(
           env.DB.prepare(
             "INSERT INTO save_snapshots SELECT ?,?,?,?,? WHERE EXISTS(SELECT 1 FROM careers WHERE id=? AND revision=? AND last_command=?)",

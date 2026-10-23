@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-23T16:47:50.016Z",
+  "target": "http://127.0.0.1:8792/api",
+  "checks": [
+    {
+      "name": "Google is configured without requiring verification mail",
+      "passed": true
+    },
+    {
+      "name": "challenge returns unique random nonce and ID",
+      "passed": true
+    },
+    {
+      "name": "forged credentials fail signature verification",
+      "passed": true
+    },
+    {
+      "name": "unknown challenges cannot be substituted",
+      "passed": true
+    },
+    {
+      "name": "account linking requires an authenticated session",
+      "passed": true
+    },
+    {
+      "name": "linking nonce is bound to its authenticated account",
+      "passed": true
+    },
+    {
+      "name": "logout-all revokes every session for the current account",
+      "passed": true
+    }
+  ],
+  "liveGoogleAccountLoginTested": false
+}

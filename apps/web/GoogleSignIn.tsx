@@ -19,14 +19,22 @@ export function GoogleSignIn({
   onToken,
   onError,
   ar,
+  token,
+  onLinked,
 }: {
   base: string;
   onToken: (token: string) => void;
   onError: (error: string) => void;
   ar: boolean;
+  token?: string;
+  onLinked?: () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [configured, setConfigured] = useState<boolean | null>(null);
+  const callbacks = useRef({ onToken, onError, onLinked });
+  callbacks.current = { onToken, onError, onLinked };
+  const [generation, setGeneration] = useState(0);
+  const [failed, setFailed] = useState(false);
   useEffect(() => {
     let cancelled = false;
     async function start() {
@@ -37,11 +45,20 @@ export function GoogleSignIn({
         if (cancelled) return;
         setConfigured(!!config.googleClientId);
         if (!config.googleClientId) return;
-        const response = await fetch(base + "/api/auth/google/challenge", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: "{}",
-        });
+        const response = await fetch(
+          base +
+            (token
+              ? "/api/account/google/challenge"
+              : "/api/auth/google/challenge"),
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              ...(token ? { Authorization: "Bearer " + token } : {}),
+            },
+            body: "{}",
+          },
+        );
         if (!response.ok) throw new Error("Google sign-in unavailable");
         const challenge = (await response.json()) as {
           id: string;
@@ -65,26 +82,37 @@ export function GoogleSignIn({
             nonce: challenge.nonce,
             callback: async (result) => {
               try {
-                const response = await fetch(base + "/api/auth/google", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                    credential: result.credential,
-                    challenge: challenge.id,
-                  }),
-                });
+                const response = await fetch(
+                  base +
+                    (token ? "/api/account/google/link" : "/api/auth/google"),
+                  {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      ...(token ? { Authorization: "Bearer " + token } : {}),
+                    },
+                    body: JSON.stringify({
+                      credential: result.credential,
+                      challenge: challenge.id,
+                    }),
+                  },
+                );
                 const value = (await response.json()) as {
                   token?: string;
                   error?: string;
+                  ok?: boolean;
                 };
-                if (!response.ok || !value.token)
+                if (!response.ok || (token ? !value.ok : !value.token))
                   throw new Error(value.error || "Google sign-in failed");
-                onToken(value.token);
+                if (token) callbacks.current.onLinked?.();
+                else callbacks.current.onToken(value.token!);
               } catch (e) {
-                onError((e as Error).message);
+                callbacks.current.onError((e as Error).message);
+                setFailed(true);
               }
             },
           });
+          ref.current.replaceChildren();
           google.accounts.id.renderButton(ref.current, {
             theme: "outline",
             size: "large",
@@ -93,18 +121,47 @@ export function GoogleSignIn({
         };
         if ((window as unknown as { google?: GoogleAPI }).google) render();
         else sdk.addEventListener("load", render, { once: true });
+        sdk.addEventListener(
+          "error",
+          () => {
+            if (!cancelled) {
+              setFailed(true);
+              callbacks.current.onError(
+                ar
+                  ? "تعذر تحميل تسجيل Google؛ أعد المحاولة."
+                  : "Google sign-in failed to load. Retry.",
+              );
+            }
+          },
+          { once: true },
+        );
       } catch (e) {
-        if (!cancelled) onError((e as Error).message);
+        if (!cancelled) callbacks.current.onError((e as Error).message);
+        setFailed(true);
       }
     }
+    setFailed(false);
     void start();
+    const refresh = setInterval(() => setGeneration((x) => x + 1), 240000);
     return () => {
       cancelled = true;
+      clearInterval(refresh);
     };
-  }, [base, onToken, onError]);
+  }, [base, token, generation, ar]);
   return (
     <div className="google-signin">
       <div ref={ref} />
+      {failed && (
+        <button
+          className="secondary"
+          onClick={() => {
+            document.querySelector("script[data-google-signin]")?.remove();
+            setGeneration((x) => x + 1);
+          }}
+        >
+          {ar ? "إعادة محاولة Google" : "Retry Google sign-in"}
+        </button>
+      )}
       {configured === false && (
         <p className="muted">
           {ar

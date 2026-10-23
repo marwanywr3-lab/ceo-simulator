@@ -1247,3 +1247,45 @@ th {
   margin-top: 18px;
   padding-top: 18px;
 }
+.business-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px solid #e6edf4;
+  padding: 18px 0;
+  flex-wrap: wrap;
+}
+.business-row p {
+  margin: 6px 0;
+}
+.button-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.check-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 16px;
+}
+.check-label input {
+  width: auto;
+}
+fieldset {
+  border: 1px solid #e6edf4;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+@media (max-width: 600px) {
+  .business-row {
+    display: block;
+  }
+  .button-row {
+    margin-top: 12px;
+  }
+  .business-row .secondary {
+    margin-top: 8px;
+  }
+}

@@ -36,6 +36,48 @@ export const credentials = z.object({
 });
 export const commandInput = z.discriminatedUnion("type", [
   z.object({
+    type: z.literal("train"),
+    id: z.string(),
+    days: z.number().int().min(1).max(14),
+  }),
+  z.object({
+    type: z.literal("leave"),
+    id: z.string(),
+    days: z.number().int().min(1).max(14),
+  }),
+  z.object({ type: z.literal("promote"), id: z.string() }),
+  z.object({
+    type: z.literal("order"),
+    supplier: z.number().int().min(0).max(2),
+    quantity: z.number().int().min(1).max(10000),
+  }),
+  z.object({ type: z.literal("cancel_order"), id: z.string() }),
+  z.object({
+    type: z.literal("return_order"),
+    id: z.string(),
+    quantity: z.number().int().min(1).max(10000),
+  }),
+  z.object({
+    type: z.literal("project"),
+    name: z.string().trim().min(2).max(100),
+    budget: z.number().int().min(10000).max(1000000),
+    days: z.number().int().min(7).max(180),
+    employeeIds: z.array(z.string()).min(1).max(4),
+  }),
+  z.object({ type: z.literal("cancel_project"), id: z.string() }),
+  z.object({
+    type: z.literal("lead"),
+    name: z.string().trim().min(2).max(80),
+    budget: z.number().int().min(1000).max(1000000),
+  }),
+  z.object({ type: z.literal("pitch"), id: z.string() }),
+  z.object({
+    type: z.literal("support"),
+    id: z.string(),
+    resolution: z.enum(["resolve", "refund"]),
+  }),
+  z.object({ type: z.literal("pay_due") }),
+  z.object({
     type: z.literal("purchase"),
     quantity: z.number().int().min(1).max(10000),
   }),

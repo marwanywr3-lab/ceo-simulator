@@ -1,4 +1,10 @@
 import { candidates, sectors, type CareerInput, type Command } from "../shared";
+import {
+  available,
+  businessCommand,
+  businessDay,
+  type Business,
+} from "./business";
 export type Journal = {
   id: string;
   day: number;
@@ -14,8 +20,13 @@ export type Employee = {
   trust: number;
   memory: string[];
   status: string;
+  trainingUntil?: number;
+  trainingGain?: number;
+  leaveUntil?: number;
+  level?: number;
 };
 export type State = {
+  business?: Business;
   inventory?: number;
   inventoryValue?: number;
   delegations?: {
@@ -134,8 +145,16 @@ export function report(s: State) {
     expenses,
     profit: revenue - expenses,
     assets:
-      (balances.cash || 0) + (balances.assets || 0) + (balances.inventory || 0),
-    liabilities: 0 - (balances.loans || 0) - (balances.payable || 0),
+      (balances.cash || 0) +
+      (balances.assets || 0) +
+      (balances.inventory || 0) +
+      (balances.prepayments || 0) +
+      (balances.receivables || 0),
+    liabilities:
+      0 -
+      (balances.loans || 0) -
+      (balances.payable || 0) -
+      (balances.deferred || 0),
     equity: -(balances.equity || 0) + revenue - expenses,
     balanced: s.journal.every(
       (e) => e.lines.reduce((a, l) => a + l.debit - l.credit, 0) === 0,
@@ -143,6 +162,7 @@ export function report(s: State) {
   };
 }
 function day(s: State, d: number) {
+  businessDay(s, d);
   const sector = sectors[s.company.sector],
     model = sector[5];
   s.demand = Math.max(
@@ -187,7 +207,14 @@ function day(s: State, d: number) {
     }
     if (delegation.spent >= delegation.budget) delegation.active = false;
   }
-  const workers = s.employees.length;
+  const assigned = new Set(
+    s.business?.projects
+      .filter((p) => p.status === "active")
+      .flatMap((p) => p.employeeIds) || [],
+  );
+  const workers = s.employees.filter(
+    (e) => available(e, d) && !assigned.has(e.id),
+  ).length;
   const capacity =
     s.office && s.equipment ? workers * (1 + s.branches.length * 0.2) : 0;
   for (const p of s.products) {
@@ -258,13 +285,22 @@ function day(s: State, d: number) {
     const rent = s.office ? 1500000 * (1 + s.branches.length) : 0;
     const total = salary + rent;
     if (total) {
-      post(
-        s,
-        "استحقاق شهري / Monthly accrual",
-        "expense_payroll",
-        "payable",
-        total,
-      );
+      if (salary)
+        post(
+          s,
+          "استحقاق رواتب / Payroll accrual",
+          "expense_payroll",
+          "payable",
+          salary,
+        );
+      if (rent)
+        post(
+          s,
+          "استحقاق إيجار / Rent accrual",
+          "expense_rent",
+          "payable",
+          rent,
+        );
       s.unpaidPayroll += total;
     }
     if (s.unpaidPayroll && s.cash >= s.unpaidPayroll) {
@@ -299,268 +335,277 @@ function day(s: State, d: number) {
 export function execute(original: State, command: Command): State {
   const s = structuredClone(original);
   const sector = sectors[s.company.sector];
-  switch (command.type) {
-    case "purchase": {
-      insist(s.office, "المقر مطلوب / Office required");
-      const cost = command.quantity * sector[4] * 30;
-      spend(s, "شراء مواد / Material procurement", "inventory", cost);
-      s.inventory = (s.inventory || 0) + command.quantity;
-      s.inventoryValue = (s.inventoryValue || 0) + cost;
-      break;
-    }
-    case "delegate": {
-      const e = s.employees.find((e) => e.id === command.id);
-      insist(
-        e && ["CFO", "CMO", "COO"].includes(e.role),
-        "صلاحية المدير غير مناسبة / Manager role not eligible",
-      );
-      insist(
-        command.budget * 100 <= s.cash,
-        "الميزانية تتجاوز النقدية / Budget exceeds cash",
-      );
-      s.delegations = s.delegations || [];
-      insist(
-        !s.delegations.some((d) => d.id === command.id && d.active),
-        "تفويض نشط موجود / Active delegation exists",
-      );
-      s.delegations.push({
-        id: command.id,
-        budget: command.budget * 100,
-        spent: 0,
-        active: true,
-      });
-      break;
-    }
-    case "revoke": {
-      const d = s.delegations?.find((d) => d.id === command.id && d.active);
-      insist(d, "لا يوجد تفويض نشط / No active delegation");
-      d!.active = false;
-      break;
-    }
-    case "tender": {
-      insist(
-        s.equipment && s.employees.length,
-        "القدرة التشغيلية مطلوبة / Capacity required",
-      );
-      const estimate = sector[4] * 100;
-      insist(
-        command.bid <= estimate * 2,
-        "العرض يتجاوز سقف المناقصة / Bid exceeds tender cap",
-      );
-      const skill =
-        s.employees.reduce((a, e) => a + e.skill, 0) / s.employees.length;
-      const score = Math.round(
-        Math.min(40, (estimate / command.bid) * 28) +
-          skill * 0.35 +
-          s.reputation * 0.25,
-      );
-      const won = score >= 68;
-      s.bids = s.bids || [];
-      s.bids.push({
-        id: crypto.randomUUID(),
-        value: command.bid * 100,
-        score,
-        won,
-      });
-      if (won)
-        s.contracts.push({
+  if (!businessCommand(s, command))
+    switch (command.type) {
+      case "purchase": {
+        insist(s.office, "المقر مطلوب / Office required");
+        const cost = command.quantity * sector[4] * 30;
+        spend(s, "شراء مواد / Material procurement", "inventory", cost);
+        s.inventory = (s.inventory || 0) + command.quantity;
+        s.inventoryValue = (s.inventoryValue || 0) + cost;
+        break;
+      }
+      case "delegate": {
+        const e = s.employees.find((e) => e.id === command.id);
+        insist(
+          e && ["CFO", "CMO", "COO"].includes(e.role),
+          "صلاحية المدير غير مناسبة / Manager role not eligible",
+        );
+        insist(
+          command.budget * 100 <= s.cash,
+          "الميزانية تتجاوز النقدية / Budget exceeds cash",
+        );
+        s.delegations = s.delegations || [];
+        insist(
+          !s.delegations.some((d) => d.id === command.id && d.active),
+          "تفويض نشط موجود / Active delegation exists",
+        );
+        s.delegations.push({
+          id: command.id,
+          budget: command.budget * 100,
+          spent: 0,
+          active: true,
+        });
+        break;
+      }
+      case "revoke": {
+        const d = s.delegations?.find((d) => d.id === command.id && d.active);
+        insist(d, "لا يوجد تفويض نشط / No active delegation");
+        d!.active = false;
+        break;
+      }
+      case "tender": {
+        insist(
+          s.equipment && s.employees.length,
+          "القدرة التشغيلية مطلوبة / Capacity required",
+        );
+        const estimate = sector[4] * 100;
+        insist(
+          command.bid <= estimate * 2,
+          "العرض يتجاوز سقف المناقصة / Bid exceeds tender cap",
+        );
+        const skill =
+          s.employees.reduce((a, e) => a + e.skill, 0) / s.employees.length;
+        const score = Math.round(
+          Math.min(40, (estimate / command.bid) * 28) +
+            skill * 0.35 +
+            s.reputation * 0.25,
+        );
+        const won = score >= 68;
+        s.bids = s.bids || [];
+        s.bids.push({
           id: crypto.randomUUID(),
           value: command.bid * 100,
+          score,
+          won,
+        });
+        if (won)
+          s.contracts.push({
+            id: crypto.randomUUID(),
+            value: command.bid * 100,
+            progress: 0,
+            status: "active",
+          });
+        break;
+      }
+      case "advance": {
+        const end = s.minute + command.minutes;
+        for (
+          let d = Math.floor(s.minute / 1440) + 1;
+          d <= Math.floor(end / 1440);
+          d++
+        ) {
+          s.minute = d * 1440;
+          day(s, d);
+        }
+        s.minute = end;
+        break;
+      }
+      case "rent":
+        insist(!s.office, "المقر مستأجر بالفعل / Already rented");
+        spend(
+          s,
+          "تأمين وإيجار المقر / Office deposit",
+          "expense_setup",
+          4500000,
+        );
+        s.office = true;
+        break;
+      case "equip":
+        insist(
+          s.office && !s.equipment,
+          "استأجر مقرًا أولًا / Rent an office first",
+        );
+        spend(s, "معدات / Equipment", "assets", sector[2] * 100);
+        s.equipment = true;
+        break;
+      case "hire": {
+        insist(s.office, "استأجر مقرًا أولًا / Rent an office first");
+        const c = candidates[command.candidate];
+        insist(
+          !s.employees.some((e) => e.role === c.role),
+          "المنصب مشغول / Role filled",
+        );
+        spend(s, "رسوم التوظيف / Recruitment", "expense_hiring", c.salary * 50);
+        s.employees.push({
+          id: crypto.randomUUID(),
+          name: c.name,
+          role: c.role,
+          salary: c.salary * 100,
+          skill: c.skill,
+          trust: 50,
+          memory: [],
+          status: "متاح / Available",
+        });
+        break;
+      }
+      case "rename": {
+        const e = s.employees.find((e) => e.id === command.id);
+        insist(e, "الموظف غير موجود / Employee missing");
+        e!.name = command.name;
+        break;
+      }
+      case "fire": {
+        const e = s.employees.find((e) => e.id === command.id);
+        insist(e, "الموظف غير موجود / Employee missing");
+        spend(
+          s,
+          "تعويض إنهاء الخدمة / Severance",
+          "expense_severance",
+          e!.salary,
+        );
+        s.employees = s.employees.filter((x) => x.id !== e!.id);
+        break;
+      }
+      case "develop":
+        insist(
+          s.equipment && s.employees.length,
+          "تحتاج معدات وفريقًا / Equipment and team required",
+        );
+        spend(
+          s,
+          "البحث والتطوير / R&D",
+          "expense_research",
+          Math.round(sector[2] * 20),
+        );
+        s.products.push({
+          id: crypto.randomUUID(),
+          name: command.name,
+          price: command.price * 100,
+          progress: 0,
+          sold: 0,
+        });
+        break;
+      case "marketing":
+        spend(
+          s,
+          "حملة تسويق / Marketing",
+          "expense_marketing",
+          command.budget * 100,
+        );
+        s.marketing += command.budget * 100;
+        break;
+      case "loan":
+        insist(s.loans.length === 0, "قرض واحد نشط فقط / One active loan");
+        insist(
+          command.amount <= s.company.capital / 2,
+          "الضمان لا يغطي المبلغ / Insufficient collateral",
+        );
+        post(s, "تمويل مصرفي / Loan", "cash", "loans", command.amount * 100);
+        s.loans.push({
+          principal: command.amount * 100,
+          remaining: command.amount * 100,
+          rate: 8,
+        });
+        break;
+      case "repay": {
+        insist(s.loans.length, "لا توجد قروض / No loans");
+        spend(
+          s,
+          "سداد أصل القرض / Principal repayment",
+          "loans",
+          s.loans[0].remaining,
+        );
+        s.loans = [];
+        break;
+      }
+      case "contract":
+        insist(
+          s.equipment && s.employees.length,
+          "تحتاج قدرة تشغيلية / Operational capacity required",
+        );
+        insist(
+          !s.contracts.some((c) => c.status === "active"),
+          "أنهِ العقد الحالي / Finish active contract",
+        );
+        s.contracts.push({
+          id: crypto.randomUUID(),
+          value: sector[4] * 100 * 100,
           progress: 0,
           status: "active",
         });
-      break;
-    }
-    case "advance": {
-      const end = s.minute + command.minutes;
-      for (
-        let d = Math.floor(s.minute / 1440) + 1;
-        d <= Math.floor(end / 1440);
-        d++
-      ) {
-        s.minute = d * 1440;
-        day(s, d);
+        break;
+      case "meeting":
+        insist(s.employees.length, "لا يوجد موظفون / No employees");
+        for (const e of s.employees) {
+          e.memory.push(command.agenda);
+          e.trust = Math.min(100, e.trust + 1);
+        }
+        s.messages.push({
+          id: crypto.randomUUID(),
+          from: "محضر / Minutes",
+          text: command.agenda,
+          minute: s.minute,
+        });
+        break;
+      case "message": {
+        const e = s.employees.find((e) => e.id === command.id);
+        insist(e, "الموظف غير موجود / Employee missing");
+        e!.memory.push(command.text);
+        s.messages.push({
+          id: crypto.randomUUID(),
+          from: "CEO → " + e!.name,
+          text: command.text,
+          minute: s.minute,
+        });
+        break;
       }
-      s.minute = end;
-      break;
-    }
-    case "rent":
-      insist(!s.office, "المقر مستأجر بالفعل / Already rented");
-      spend(s, "تأمين وإيجار المقر / Office deposit", "expense_setup", 4500000);
-      s.office = true;
-      break;
-    case "equip":
-      insist(
-        s.office && !s.equipment,
-        "استأجر مقرًا أولًا / Rent an office first",
-      );
-      spend(s, "معدات / Equipment", "assets", sector[2] * 100);
-      s.equipment = true;
-      break;
-    case "hire": {
-      insist(s.office, "استأجر مقرًا أولًا / Rent an office first");
-      const c = candidates[command.candidate];
-      insist(
-        !s.employees.some((e) => e.role === c.role),
-        "المنصب مشغول / Role filled",
-      );
-      spend(s, "رسوم التوظيف / Recruitment", "expense_hiring", c.salary * 50);
-      s.employees.push({
-        id: crypto.randomUUID(),
-        name: c.name,
-        role: c.role,
-        salary: c.salary * 100,
-        skill: c.skill,
-        trust: 50,
-        memory: [],
-        status: "متاح / Available",
-      });
-      break;
-    }
-    case "rename": {
-      const e = s.employees.find((e) => e.id === command.id);
-      insist(e, "الموظف غير موجود / Employee missing");
-      e!.name = command.name;
-      break;
-    }
-    case "fire": {
-      const e = s.employees.find((e) => e.id === command.id);
-      insist(e, "الموظف غير موجود / Employee missing");
-      spend(
-        s,
-        "تعويض إنهاء الخدمة / Severance",
-        "expense_severance",
-        e!.salary,
-      );
-      s.employees = s.employees.filter((x) => x.id !== e!.id);
-      break;
-    }
-    case "develop":
-      insist(
-        s.equipment && s.employees.length,
-        "تحتاج معدات وفريقًا / Equipment and team required",
-      );
-      spend(
-        s,
-        "البحث والتطوير / R&D",
-        "expense_research",
-        Math.round(sector[2] * 20),
-      );
-      s.products.push({
-        id: crypto.randomUUID(),
-        name: command.name,
-        price: command.price * 100,
-        progress: 0,
-        sold: 0,
-      });
-      break;
-    case "marketing":
-      spend(
-        s,
-        "حملة تسويق / Marketing",
-        "expense_marketing",
-        command.budget * 100,
-      );
-      s.marketing += command.budget * 100;
-      break;
-    case "loan":
-      insist(s.loans.length === 0, "قرض واحد نشط فقط / One active loan");
-      insist(
-        command.amount <= s.company.capital / 2,
-        "الضمان لا يغطي المبلغ / Insufficient collateral",
-      );
-      post(s, "تمويل مصرفي / Loan", "cash", "loans", command.amount * 100);
-      s.loans.push({
-        principal: command.amount * 100,
-        remaining: command.amount * 100,
-        rate: 8,
-      });
-      break;
-    case "repay": {
-      insist(s.loans.length, "لا توجد قروض / No loans");
-      spend(
-        s,
-        "سداد أصل القرض / Principal repayment",
-        "loans",
-        s.loans[0].remaining,
-      );
-      s.loans = [];
-      break;
-    }
-    case "contract":
-      insist(
-        s.equipment && s.employees.length,
-        "تحتاج قدرة تشغيلية / Operational capacity required",
-      );
-      insist(
-        !s.contracts.some((c) => c.status === "active"),
-        "أنهِ العقد الحالي / Finish active contract",
-      );
-      s.contracts.push({
-        id: crypto.randomUUID(),
-        value: sector[4] * 100 * 100,
-        progress: 0,
-        status: "active",
-      });
-      break;
-    case "meeting":
-      insist(s.employees.length, "لا يوجد موظفون / No employees");
-      for (const e of s.employees) {
-        e.memory.push(command.agenda);
-        e.trust = Math.min(100, e.trust + 1);
+      case "travel": {
+        const minutes =
+          command.location === "city"
+            ? 60
+            : command.location === "industry"
+              ? 90
+              : 30;
+        const end = s.minute + minutes;
+        for (
+          let d = Math.floor(s.minute / 1440) + 1;
+          d <= Math.floor(end / 1440);
+          d++
+        ) {
+          s.minute = d * 1440;
+          day(s, d);
+        }
+        s.minute = end;
+        s.location = command.location;
+        break;
       }
-      s.messages.push({
-        id: crypto.randomUUID(),
-        from: "محضر / Minutes",
-        text: command.agenda,
-        minute: s.minute,
-      });
-      break;
-    case "message": {
-      const e = s.employees.find((e) => e.id === command.id);
-      insist(e, "الموظف غير موجود / Employee missing");
-      e!.memory.push(command.text);
-      s.messages.push({
-        id: crypto.randomUUID(),
-        from: "CEO → " + e!.name,
-        text: command.text,
-        minute: s.minute,
-      });
-      break;
+      case "branch":
+        insist(
+          s.employees.some((e) => e.role === "COO"),
+          "عيّن مدير عمليات / COO required",
+        );
+        insist(
+          !s.branches.includes(command.city),
+          "الفرع موجود / Branch exists",
+        );
+        spend(s, "تأسيس فرع / Branch setup", "expense_branch", 25000000);
+        s.branches.push(command.city);
+        break;
+      case "snapshot":
+      case "restore":
+        throw new RuleError("Server operation");
     }
-    case "travel": {
-      const minutes =
-        command.location === "city"
-          ? 60
-          : command.location === "industry"
-            ? 90
-            : 30;
-      const end = s.minute + minutes;
-      for (
-        let d = Math.floor(s.minute / 1440) + 1;
-        d <= Math.floor(end / 1440);
-        d++
-      ) {
-        s.minute = d * 1440;
-        day(s, d);
-      }
-      s.minute = end;
-      s.location = command.location;
-      break;
-    }
-    case "branch":
-      insist(
-        s.employees.some((e) => e.role === "COO"),
-        "عيّن مدير عمليات / COO required",
-      );
-      insist(!s.branches.includes(command.city), "الفرع موجود / Branch exists");
-      spend(s, "تأسيس فرع / Branch setup", "expense_branch", 25000000);
-      s.branches.push(command.city);
-      break;
-    case "snapshot":
-    case "restore":
-      throw new RuleError("Server operation");
-  }
   insist(Number.isSafeInteger(s.cash) && s.cash >= 0, "Cash invariant");
   insist(report(s).balanced, "Ledger invariant");
   s.events.push({ minute: s.minute, text: command.type });
