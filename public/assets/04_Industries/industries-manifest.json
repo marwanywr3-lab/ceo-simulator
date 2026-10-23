@@ -1,0 +1,652 @@
+{
+  "schemaVersion": 1,
+  "notes": "Industry crops extracted from two AI-generated master boards. No artificial upscaling was applied.",
+  "boards": {
+    "landscapeOriginal": {
+      "file": "cities_board_landscape_original.png",
+      "width": 1672,
+      "height": 941,
+      "xBands": [
+        [
+          0,
+          8
+        ],
+        [
+          417,
+          425
+        ],
+        [
+          833,
+          841
+        ],
+        [
+          1249,
+          1257
+        ],
+        [
+          1664,
+          1672
+        ]
+      ],
+      "yBands": [
+        [
+          0,
+          6
+        ],
+        [
+          194,
+          201
+        ],
+        [
+          390,
+          396
+        ],
+        [
+          579,
+          586
+        ],
+        [
+          752,
+          759
+        ],
+        [
+          932,
+          941
+        ]
+      ]
+    },
+    "portraitOriginal": {
+      "file": "cities_board_portrait_original.png",
+      "width": 941,
+      "height": 1672,
+      "xBands": [
+        [
+          0,
+          15
+        ],
+        [
+          228,
+          244
+        ],
+        [
+          464,
+          478
+        ],
+        [
+          699,
+          714
+        ],
+        [
+          926,
+          941
+        ]
+      ],
+      "yBands": [
+        [
+          0,
+          6
+        ],
+        [
+          329,
+          339
+        ],
+        [
+          663,
+          674
+        ],
+        [
+          998,
+          1008
+        ],
+        [
+          1332,
+          1342
+        ],
+        [
+          1665,
+          1672
+        ]
+      ]
+    },
+    "landscapeCorrected": {
+      "file": "industries_board_landscape.png",
+      "width": 1212,
+      "height": 882,
+      "cellWidth": 288,
+      "cellHeight": 162,
+      "gutter": 12,
+      "margin": 12
+    },
+    "portraitCorrected": {
+      "file": "industries_board_portrait.png",
+      "width": 708,
+      "height": 1512,
+      "cellWidth": 162,
+      "cellHeight": 288,
+      "gutter": 12,
+      "margin": 12
+    }
+  },
+  "locations": [
+    {
+      "id": "sector_01_software",
+      "order": 1,
+      "landscape": {
+        "file": "sector_01_software_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          45,
+          6,
+          379,
+          194
+        ]
+      },
+      "portrait": {
+        "file": "sector_01_software_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          30,
+          6,
+          212,
+          329
+        ]
+      }
+    },
+    {
+      "id": "sector_02_ai_lab",
+      "order": 2,
+      "landscape": {
+        "file": "sector_02_ai_lab_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          462,
+          6,
+          796,
+          194
+        ]
+      },
+      "portrait": {
+        "file": "sector_02_ai_lab_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          263,
+          6,
+          445,
+          329
+        ]
+      }
+    },
+    {
+      "id": "sector_03_electronics_factory",
+      "order": 3,
+      "landscape": {
+        "file": "sector_03_electronics_factory_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          878,
+          6,
+          1212,
+          194
+        ]
+      },
+      "portrait": {
+        "file": "sector_03_electronics_factory_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          497,
+          6,
+          679,
+          329
+        ]
+      }
+    },
+    {
+      "id": "sector_04_food_factory",
+      "order": 4,
+      "landscape": {
+        "file": "sector_04_food_factory_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          1293,
+          6,
+          1627,
+          194
+        ]
+      },
+      "portrait": {
+        "file": "sector_04_food_factory_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          729,
+          6,
+          911,
+          329
+        ]
+      }
+    },
+    {
+      "id": "sector_05_fashion_studio",
+      "order": 5,
+      "landscape": {
+        "file": "sector_05_fashion_studio_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          44,
+          201,
+          380,
+          390
+        ]
+      },
+      "portrait": {
+        "file": "sector_05_fashion_studio_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          30,
+          339,
+          212,
+          663
+        ]
+      }
+    },
+    {
+      "id": "sector_06_restaurant_kitchen",
+      "order": 6,
+      "landscape": {
+        "file": "sector_06_restaurant_kitchen_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          461,
+          201,
+          797,
+          390
+        ]
+      },
+      "portrait": {
+        "file": "sector_06_restaurant_kitchen_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          263,
+          339,
+          445,
+          663
+        ]
+      }
+    },
+    {
+      "id": "sector_07_modern_cafe",
+      "order": 7,
+      "landscape": {
+        "file": "sector_07_modern_cafe_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          877,
+          201,
+          1213,
+          390
+        ]
+      },
+      "portrait": {
+        "file": "sector_07_modern_cafe_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          497,
+          339,
+          679,
+          663
+        ]
+      }
+    },
+    {
+      "id": "sector_08_large_retail",
+      "order": 8,
+      "landscape": {
+        "file": "sector_08_large_retail_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          1292,
+          201,
+          1628,
+          390
+        ]
+      },
+      "portrait": {
+        "file": "sector_08_large_retail_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          729,
+          339,
+          911,
+          663
+        ]
+      }
+    },
+    {
+      "id": "sector_09_ecommerce_fulfillment",
+      "order": 9,
+      "landscape": {
+        "file": "sector_09_ecommerce_fulfillment_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          50,
+          396,
+          375,
+          579
+        ]
+      },
+      "portrait": {
+        "file": "sector_09_ecommerce_fulfillment_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          30,
+          674,
+          212,
+          998
+        ]
+      }
+    },
+    {
+      "id": "sector_10_real_estate_showroom",
+      "order": 10,
+      "landscape": {
+        "file": "sector_10_real_estate_showroom_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          466,
+          396,
+          791,
+          579
+        ]
+      },
+      "portrait": {
+        "file": "sector_10_real_estate_showroom_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          263,
+          674,
+          445,
+          998
+        ]
+      }
+    },
+    {
+      "id": "sector_11_construction_engineering",
+      "order": 11,
+      "landscape": {
+        "file": "sector_11_construction_engineering_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          882,
+          396,
+          1207,
+          579
+        ]
+      },
+      "portrait": {
+        "file": "sector_11_construction_engineering_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          497,
+          674,
+          679,
+          998
+        ]
+      }
+    },
+    {
+      "id": "sector_12_logistics_warehouse",
+      "order": 12,
+      "landscape": {
+        "file": "sector_12_logistics_warehouse_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          1298,
+          396,
+          1623,
+          579
+        ]
+      },
+      "portrait": {
+        "file": "sector_12_logistics_warehouse_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          729,
+          674,
+          911,
+          998
+        ]
+      }
+    },
+    {
+      "id": "sector_13_healthcare_administration",
+      "order": 13,
+      "landscape": {
+        "file": "sector_13_healthcare_administration_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          65,
+          586,
+          360,
+          752
+        ]
+      },
+      "portrait": {
+        "file": "sector_13_healthcare_administration_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          30,
+          1008,
+          212,
+          1332
+        ]
+      }
+    },
+    {
+      "id": "sector_14_education_training",
+      "order": 14,
+      "landscape": {
+        "file": "sector_14_education_training_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          481,
+          586,
+          776,
+          752
+        ]
+      },
+      "portrait": {
+        "file": "sector_14_education_training_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          263,
+          1008,
+          445,
+          1332
+        ]
+      }
+    },
+    {
+      "id": "sector_15_media_production",
+      "order": 15,
+      "landscape": {
+        "file": "sector_15_media_production_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          897,
+          586,
+          1192,
+          752
+        ]
+      },
+      "portrait": {
+        "file": "sector_15_media_production_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          497,
+          1008,
+          679,
+          1332
+        ]
+      }
+    },
+    {
+      "id": "sector_16_advertising_agency",
+      "order": 16,
+      "landscape": {
+        "file": "sector_16_advertising_agency_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          1313,
+          586,
+          1608,
+          752
+        ]
+      },
+      "portrait": {
+        "file": "sector_16_advertising_agency_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          729,
+          1008,
+          911,
+          1332
+        ]
+      }
+    },
+    {
+      "id": "sector_17_financial_services",
+      "order": 17,
+      "landscape": {
+        "file": "sector_17_financial_services_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          58,
+          759,
+          366,
+          932
+        ]
+      },
+      "portrait": {
+        "file": "sector_17_financial_services_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          30,
+          1342,
+          212,
+          1665
+        ]
+      }
+    },
+    {
+      "id": "sector_18_renewable_energy",
+      "order": 18,
+      "landscape": {
+        "file": "sector_18_renewable_energy_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          475,
+          759,
+          783,
+          932
+        ]
+      },
+      "portrait": {
+        "file": "sector_18_renewable_energy_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          263,
+          1342,
+          445,
+          1665
+        ]
+      }
+    },
+    {
+      "id": "sector_19_smart_agriculture",
+      "order": 19,
+      "landscape": {
+        "file": "sector_19_smart_agriculture_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          891,
+          759,
+          1199,
+          932
+        ]
+      },
+      "portrait": {
+        "file": "sector_19_smart_agriculture_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          497,
+          1342,
+          679,
+          1665
+        ]
+      }
+    },
+    {
+      "id": "sector_20_hospitality_reception",
+      "order": 20,
+      "landscape": {
+        "file": "sector_20_hospitality_reception_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          1306,
+          759,
+          1614,
+          932
+        ]
+      },
+      "portrait": {
+        "file": "sector_20_hospitality_reception_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          729,
+          1342,
+          911,
+          1665
+        ]
+      }
+    }
+  ]
+}

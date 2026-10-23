@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-23T15:14:00.740Z",
+  "target": "https://ceo-simulator-api.marwan-codes-platform.workers.dev/api",
+  "checks": [
+    {
+      "name": "live health and disabled email verification",
+      "passed": true
+    },
+    {
+      "name": "email registration and password login over HTTPS",
+      "passed": true
+    },
+    {
+      "name": "create career backed by production D1",
+      "passed": true
+    },
+    {
+      "name": "rent, equipment, hiring and authoritative balances",
+      "passed": true
+    },
+    {
+      "name": "idempotency survives network retries",
+      "passed": true
+    },
+    {
+      "name": "products, contracts and game time persist",
+      "passed": true
+    },
+    {
+      "name": "consistent snapshots and restore on production storage",
+      "passed": true
+    },
+    {
+      "name": "cross-origin access restricted to frontend",
+      "passed": true
+    },
+    {
+      "name": "anonymous access to saved career denied",
+      "passed": true
+    }
+  ],
+  "disposableAccountsDeleted": true
+}

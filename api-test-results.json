@@ -1,0 +1,94 @@
+{
+  "date": "2026-10-23T14:31:42.186Z",
+  "target": "http://127.0.0.1:8787/api",
+  "tests": [
+    {
+      "name": "email verification disabled and Google unconfigured",
+      "passed": true
+    },
+    {
+      "name": "Google login fails explicitly until configured",
+      "passed": true
+    },
+    {
+      "name": "anonymous career access denied",
+      "passed": true
+    },
+    {
+      "name": "account creation",
+      "passed": true
+    },
+    {
+      "name": "login",
+      "passed": true
+    },
+    {
+      "name": "company creation with capital only",
+      "passed": true
+    },
+    {
+      "name": "server ignores forged cash and applies authoritative rent",
+      "passed": true
+    },
+    {
+      "name": "idempotent replay does not double-spend",
+      "passed": true
+    },
+    {
+      "name": "same id with changed payload rejected",
+      "passed": true
+    },
+    {
+      "name": "stale revision rejected",
+      "passed": true
+    },
+    {
+      "name": "unknown financial mutation blocked",
+      "passed": true
+    },
+    {
+      "name": "equip, hire, rename and persistent memory",
+      "passed": true
+    },
+    {
+      "name": "snapshot restores complete consistent state",
+      "passed": true
+    },
+    {
+      "name": "concurrent commands commit at most once per revision",
+      "passed": true
+    },
+    {
+      "name": "concurrent identical retries apply once and both succeed",
+      "passed": true
+    },
+    {
+      "name": "second account and cross-user isolation",
+      "passed": true
+    },
+    {
+      "name": "CORS blocks unknown origins",
+      "passed": true
+    },
+    {
+      "name": "oversized body rejected",
+      "passed": true
+    },
+    {
+      "name": "state survives reload",
+      "passed": true
+    },
+    {
+      "name": "account deletion cascades and invalidates session",
+      "passed": true
+    },
+    {
+      "name": "logout revokes token",
+      "passed": true
+    },
+    {
+      "name": "rate limit enforced",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,987 @@
+{
+  "date": "2026-10-23T14:35:18.839Z",
+  "checks": "PNG headers, matching variants, office manifest paths and normalized hotspots. Not a visual inspection of every asset.",
+  "count": 140,
+  "images": [
+    {
+      "stage": "01_Offices",
+      "file": "office_01_empty_startup_landscape.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1967213
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_01_empty_startup_portrait.png",
+      "width": 941,
+      "height": 1672,
+      "bytes": 2353953
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_02_furnished_startup_landscape.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2375934
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_02_furnished_startup_portrait.png",
+      "width": 941,
+      "height": 1672,
+      "bytes": 2797341
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_03_medium_company_landscape.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2199757
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_03_medium_company_portrait.png",
+      "width": 941,
+      "height": 1672,
+      "bytes": 2392639
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_04_luxury_headquarters_landscape.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2508725
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_04_luxury_headquarters_portrait.png",
+      "width": 941,
+      "height": 1672,
+      "bytes": 2564076
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_05_ceo_room_landscape.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2472036
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_05_ceo_room_portrait.png",
+      "width": 941,
+      "height": 1672,
+      "bytes": 2543230
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_06_saudi_executive_landscape.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2536413
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_06_saudi_executive_portrait.png",
+      "width": 941,
+      "height": 1672,
+      "bytes": 2529086
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_07_boardroom_landscape.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2538795
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_07_boardroom_portrait.png",
+      "width": 941,
+      "height": 1672,
+      "bytes": 2797040
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_08_meeting_room_landscape.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2507864
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_08_meeting_room_portrait.png",
+      "width": 940,
+      "height": 1672,
+      "bytes": 2575666
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_09_reception_landscape.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2612553
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_09_reception_portrait.png",
+      "width": 941,
+      "height": 1672,
+      "bytes": 2741630
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_10_assistant_room_landscape.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2603656
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_10_assistant_room_portrait.png",
+      "width": 941,
+      "height": 1672,
+      "bytes": 2876789
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_11_hr_department_landscape.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2410975
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_11_hr_department_portrait.png",
+      "width": 941,
+      "height": 1672,
+      "bytes": 2544026
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_12_finance_department_landscape.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2255123
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_12_finance_department_portrait.png",
+      "width": 941,
+      "height": 1672,
+      "bytes": 2219228
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_13_marketing_department_landscape.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2529219
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_13_marketing_department_portrait.png",
+      "width": 941,
+      "height": 1672,
+      "bytes": 2590033
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_14_software_department_landscape.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2281518
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_14_software_department_portrait.png",
+      "width": 941,
+      "height": 1672,
+      "bytes": 2396928
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_15_operations_center_landscape.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2468124
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_15_operations_center_portrait.png",
+      "width": 941,
+      "height": 1672,
+      "bytes": 2615224
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_16_customer_service_landscape.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2719328
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_16_customer_service_portrait.png",
+      "width": 941,
+      "height": 1672,
+      "bytes": 2839109
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_17_research_lab_landscape.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2224338
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_17_research_lab_portrait.png",
+      "width": 940,
+      "height": 1672,
+      "bytes": 2924057
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_18_coworking_landscape.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2593488
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_18_coworking_portrait.png",
+      "width": 941,
+      "height": 1672,
+      "bytes": 2319916
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_19_corridor_landscape.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2173124
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_19_corridor_portrait.png",
+      "width": 941,
+      "height": 1672,
+      "bytes": 2320234
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_20_building_lobby_landscape.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2495334
+    },
+    {
+      "stage": "01_Offices",
+      "file": "office_20_building_lobby_portrait.png",
+      "width": 941,
+      "height": 1672,
+      "bytes": 2422710
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_01_riyadh_skyline_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 72827
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_01_riyadh_skyline_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 76546
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_02_riyadh_business_street_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 91417
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_02_riyadh_business_street_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 88782
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_03_jeddah_business_district_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 77650
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_03_jeddah_business_district_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 84126
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_04_dammam_business_district_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 75878
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_04_dammam_business_district_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 82296
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_05_saudi_industrial_city_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 88044
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_05_saudi_industrial_city_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 89392
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_06_logistics_warehouses_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 69306
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_06_logistics_warehouses_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 71599
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_07_modern_office_tower_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 77114
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_07_modern_office_tower_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 85798
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_08_small_office_building_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 89689
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_08_small_office_building_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 88344
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_09_luxury_global_headquarters_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 88923
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_09_luxury_global_headquarters_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 90609
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_10_commercial_complex_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 92972
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_10_commercial_complex_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 95941
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_11_commercial_restaurant_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 92767
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_11_commercial_restaurant_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 90753
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_12_modern_factory_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 75121
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_12_modern_factory_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 76107
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_13_technology_campus_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 94341
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_13_technology_campus_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 92756
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_14_fictional_bank_branch_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 89904
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_14_fictional_bank_branch_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 88916
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_15_convention_center_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 92185
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_15_convention_center_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 89029
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_16_business_hotel_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 91819
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_16_business_hotel_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 95375
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_17_distribution_center_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 69691
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_17_distribution_center_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 77326
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_18_commercial_construction_site_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 95615
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_18_commercial_construction_site_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 101445
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_19_airport_business_entrance_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 88950
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_19_airport_business_entrance_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 90127
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_20_mixed_use_development_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 102467
+    },
+    {
+      "stage": "03_Cities",
+      "file": "location_20_mixed_use_development_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 102802
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_01_software_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 90757
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_01_software_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 90422
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_02_ai_lab_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 92016
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_02_ai_lab_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 90459
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_03_electronics_factory_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 101080
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_03_electronics_factory_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 104485
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_04_food_factory_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 105893
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_04_food_factory_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 103526
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_05_fashion_studio_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 93946
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_05_fashion_studio_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 92942
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_06_restaurant_kitchen_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 99678
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_06_restaurant_kitchen_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 101866
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_07_modern_cafe_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 97563
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_07_modern_cafe_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 94683
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_08_large_retail_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 93219
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_08_large_retail_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 95458
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_09_ecommerce_fulfillment_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 103100
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_09_ecommerce_fulfillment_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 102872
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_10_real_estate_showroom_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 98720
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_10_real_estate_showroom_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 105639
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_11_construction_engineering_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 95588
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_11_construction_engineering_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 94213
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_12_logistics_warehouse_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 95530
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_12_logistics_warehouse_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 92257
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_13_healthcare_administration_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 71472
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_13_healthcare_administration_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 76231
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_14_education_training_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 82954
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_14_education_training_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 81960
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_15_media_production_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 91099
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_15_media_production_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 89488
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_16_advertising_agency_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 92564
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_16_advertising_agency_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 90909
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_17_financial_services_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 90331
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_17_financial_services_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 90754
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_18_renewable_energy_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 91987
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_18_renewable_energy_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 91766
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_19_smart_agriculture_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 104555
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_19_smart_agriculture_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 102265
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_20_hospitality_reception_landscape.png",
+      "width": 288,
+      "height": 162,
+      "bytes": 83543
+    },
+    {
+      "stage": "04_Industries",
+      "file": "sector_20_hospitality_reception_portrait.png",
+      "width": 162,
+      "height": 288,
+      "bytes": 84369
+    },
+    {
+      "stage": "05_Objects",
+      "file": "object_01_executive_desk.png",
+      "width": 316,
+      "height": 316,
+      "bytes": 96607
+    },
+    {
+      "stage": "05_Objects",
+      "file": "object_02_luxury_office_chair.png",
+      "width": 316,
+      "height": 316,
+      "bytes": 100085
+    },
+    {
+      "stage": "05_Objects",
+      "file": "object_03_laptop.png",
+      "width": 316,
+      "height": 316,
+      "bytes": 84211
+    },
+    {
+      "stage": "05_Objects",
+      "file": "object_04_desktop_computer.png",
+      "width": 316,
+      "height": 316,
+      "bytes": 89000
+    },
+    {
+      "stage": "05_Objects",
+      "file": "object_05_business_smartphone.png",
+      "width": 316,
+      "height": 316,
+      "bytes": 70987
+    },
+    {
+      "stage": "05_Objects",
+      "file": "object_06_office_phone.png",
+      "width": 316,
+      "height": 316,
+      "bytes": 105650
+    },
+    {
+      "stage": "05_Objects",
+      "file": "object_07_contracts_folder.png",
+      "width": 316,
+      "height": 316,
+      "bytes": 109354
+    },
+    {
+      "stage": "05_Objects",
+      "file": "object_08_financial_reports_file.png",
+      "width": 316,
+      "height": 316,
+      "bytes": 83714
+    },
+    {
+      "stage": "05_Objects",
+      "file": "object_09_filing_cabinet.png",
+      "width": 316,
+      "height": 316,
+      "bytes": 70649
+    },
+    {
+      "stage": "05_Objects",
+      "file": "object_10_reception_desk.png",
+      "width": 316,
+      "height": 316,
+      "bytes": 83678
+    },
+    {
+      "stage": "05_Objects",
+      "file": "object_11_meeting_table.png",
+      "width": 316,
+      "height": 316,
+      "bytes": 106799
+    },
+    {
+      "stage": "05_Objects",
+      "file": "object_12_office_printer.png",
+      "width": 316,
+      "height": 316,
+      "bytes": 89516
+    },
+    {
+      "stage": "05_Objects",
+      "file": "object_13_management_display.png",
+      "width": 316,
+      "height": 316,
+      "bytes": 84680
+    },
+    {
+      "stage": "05_Objects",
+      "file": "object_14_employee_access_card.png",
+      "width": 316,
+      "height": 316,
+      "bytes": 85517
+    },
+    {
+      "stage": "05_Objects",
+      "file": "object_15_business_briefcase.png",
+      "width": 316,
+      "height": 316,
+      "bytes": 106594
+    },
+    {
+      "stage": "05_Objects",
+      "file": "object_16_office_door.png",
+      "width": 316,
+      "height": 316,
+      "bytes": 72421
+    },
+    {
+      "stage": "05_Objects",
+      "file": "object_17_elevator_entrance.png",
+      "width": 316,
+      "height": 316,
+      "bytes": 81723
+    },
+    {
+      "stage": "05_Objects",
+      "file": "object_18_presentation_screen.png",
+      "width": 316,
+      "height": 316,
+      "bytes": 72931
+    },
+    {
+      "stage": "05_Objects",
+      "file": "object_19_corporate_award_shield.png",
+      "width": 316,
+      "height": 316,
+      "bytes": 107756
+    },
+    {
+      "stage": "05_Objects",
+      "file": "object_20_coffee_machine.png",
+      "width": 316,
+      "height": 316,
+      "bytes": 104236
+    }
+  ]
+}

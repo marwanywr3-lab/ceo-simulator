@@ -1,0 +1,447 @@
+{
+  "schemaVersion": 1,
+  "sourceBoard": {
+    "file": "objects_board_original.png",
+    "width": 1122,
+    "height": 1402
+  },
+  "grid": {
+    "columns": 4,
+    "rows": 5,
+    "detectedXBands": [
+      [
+        276,
+        278
+      ],
+      [
+        560,
+        562
+      ],
+      [
+        844,
+        846
+      ]
+    ],
+    "detectedYBands": [
+      [
+        278,
+        280
+      ],
+      [
+        554,
+        556
+      ],
+      [
+        813,
+        815
+      ],
+      [
+        1084,
+        1086
+      ]
+    ]
+  },
+  "backgroundRemoval": "Chroma-magenta removal with feathered alpha edges; no artificial upscaling",
+  "objects": [
+    {
+      "id": "object_01_executive_desk",
+      "order": 1,
+      "file": "object_01_executive_desk.png",
+      "width": 316,
+      "height": 316,
+      "transparency": {
+        "hasAlpha": true,
+        "hasFullyTransparentPixels": true,
+        "transparentPixelCount": 66815,
+        "partiallyTransparentEdgePixelCount": 6418,
+        "nonTransparentBoundingBox": [
+          20,
+          17,
+          298,
+          299
+        ]
+      },
+      "gameUse": "CEO office furnishing and desk interaction"
+    },
+    {
+      "id": "object_02_luxury_office_chair",
+      "order": 2,
+      "file": "object_02_luxury_office_chair.png",
+      "width": 316,
+      "height": 316,
+      "transparency": {
+        "hasAlpha": true,
+        "hasFullyTransparentPixels": true,
+        "transparentPixelCount": 73430,
+        "partiallyTransparentEdgePixelCount": 8289,
+        "nonTransparentBoundingBox": [
+          15,
+          17,
+          301,
+          299
+        ]
+      },
+      "gameUse": "Executive seating upgrade"
+    },
+    {
+      "id": "object_03_laptop",
+      "order": 3,
+      "file": "object_03_laptop.png",
+      "width": 316,
+      "height": 316,
+      "transparency": {
+        "hasAlpha": true,
+        "hasFullyTransparentPixels": true,
+        "transparentPixelCount": 68618,
+        "partiallyTransparentEdgePixelCount": 5706,
+        "nonTransparentBoundingBox": [
+          15,
+          17,
+          301,
+          299
+        ]
+      },
+      "gameUse": "Portable work and management actions"
+    },
+    {
+      "id": "object_04_desktop_computer",
+      "order": 4,
+      "file": "object_04_desktop_computer.png",
+      "width": 316,
+      "height": 316,
+      "transparency": {
+        "hasAlpha": true,
+        "hasFullyTransparentPixels": true,
+        "transparentPixelCount": 60957,
+        "partiallyTransparentEdgePixelCount": 7993,
+        "nonTransparentBoundingBox": [
+          18,
+          17,
+          298,
+          299
+        ]
+      },
+      "gameUse": "Desktop workstation interaction"
+    },
+    {
+      "id": "object_05_business_smartphone",
+      "order": 5,
+      "file": "object_05_business_smartphone.png",
+      "width": 316,
+      "height": 316,
+      "transparency": {
+        "hasAlpha": true,
+        "hasFullyTransparentPixels": true,
+        "transparentPixelCount": 71360,
+        "partiallyTransparentEdgePixelCount": 6581,
+        "nonTransparentBoundingBox": [
+          18,
+          19,
+          298,
+          297
+        ]
+      },
+      "gameUse": "Mobile business communication"
+    },
+    {
+      "id": "object_06_office_phone",
+      "order": 6,
+      "file": "object_06_office_phone.png",
+      "width": 316,
+      "height": 316,
+      "transparency": {
+        "hasAlpha": true,
+        "hasFullyTransparentPixels": true,
+        "transparentPixelCount": 64981,
+        "partiallyTransparentEdgePixelCount": 7758,
+        "nonTransparentBoundingBox": [
+          15,
+          19,
+          301,
+          297
+        ]
+      },
+      "gameUse": "Office calls and reception communication"
+    },
+    {
+      "id": "object_07_contracts_folder",
+      "order": 7,
+      "file": "object_07_contracts_folder.png",
+      "width": 316,
+      "height": 316,
+      "transparency": {
+        "hasAlpha": true,
+        "hasFullyTransparentPixels": true,
+        "transparentPixelCount": 62690,
+        "partiallyTransparentEdgePixelCount": 7121,
+        "nonTransparentBoundingBox": [
+          15,
+          19,
+          301,
+          297
+        ]
+      },
+      "gameUse": "Contract review and signing"
+    },
+    {
+      "id": "object_08_financial_reports_file",
+      "order": 8,
+      "file": "object_08_financial_reports_file.png",
+      "width": 316,
+      "height": 316,
+      "transparency": {
+        "hasAlpha": true,
+        "hasFullyTransparentPixels": true,
+        "transparentPixelCount": 57750,
+        "partiallyTransparentEdgePixelCount": 7069,
+        "nonTransparentBoundingBox": [
+          18,
+          19,
+          298,
+          297
+        ]
+      },
+      "gameUse": "Financial report review"
+    },
+    {
+      "id": "object_09_filing_cabinet",
+      "order": 9,
+      "file": "object_09_filing_cabinet.png",
+      "width": 316,
+      "height": 316,
+      "transparency": {
+        "hasAlpha": true,
+        "hasFullyTransparentPixels": true,
+        "transparentPixelCount": 64699,
+        "partiallyTransparentEdgePixelCount": 5426,
+        "nonTransparentBoundingBox": [
+          18,
+          27,
+          298,
+          288
+        ]
+      },
+      "gameUse": "Document storage and records"
+    },
+    {
+      "id": "object_10_reception_desk",
+      "order": 10,
+      "file": "object_10_reception_desk.png",
+      "width": 316,
+      "height": 316,
+      "transparency": {
+        "hasAlpha": true,
+        "hasFullyTransparentPixels": true,
+        "transparentPixelCount": 61677,
+        "partiallyTransparentEdgePixelCount": 5901,
+        "nonTransparentBoundingBox": [
+          15,
+          27,
+          301,
+          288
+        ]
+      },
+      "gameUse": "Reception and visitor interaction"
+    },
+    {
+      "id": "object_11_meeting_table",
+      "order": 11,
+      "file": "object_11_meeting_table.png",
+      "width": 316,
+      "height": 316,
+      "transparency": {
+        "hasAlpha": true,
+        "hasFullyTransparentPixels": true,
+        "transparentPixelCount": 64901,
+        "partiallyTransparentEdgePixelCount": 11022,
+        "nonTransparentBoundingBox": [
+          15,
+          27,
+          301,
+          288
+        ]
+      },
+      "gameUse": "Meetings and board decisions"
+    },
+    {
+      "id": "object_12_office_printer",
+      "order": 12,
+      "file": "object_12_office_printer.png",
+      "width": 316,
+      "height": 316,
+      "transparency": {
+        "hasAlpha": true,
+        "hasFullyTransparentPixels": true,
+        "transparentPixelCount": 59024,
+        "partiallyTransparentEdgePixelCount": 5624,
+        "nonTransparentBoundingBox": [
+          18,
+          27,
+          298,
+          288
+        ]
+      },
+      "gameUse": "Printing business documents"
+    },
+    {
+      "id": "object_13_management_display",
+      "order": 13,
+      "file": "object_13_management_display.png",
+      "width": 316,
+      "height": 316,
+      "transparency": {
+        "hasAlpha": true,
+        "hasFullyTransparentPixels": true,
+        "transparentPixelCount": 56345,
+        "partiallyTransparentEdgePixelCount": 8081,
+        "nonTransparentBoundingBox": [
+          18,
+          21,
+          298,
+          294
+        ]
+      },
+      "gameUse": "Viewing management dashboards"
+    },
+    {
+      "id": "object_14_employee_access_card",
+      "order": 14,
+      "file": "object_14_employee_access_card.png",
+      "width": 316,
+      "height": 316,
+      "transparency": {
+        "hasAlpha": true,
+        "hasFullyTransparentPixels": true,
+        "transparentPixelCount": 74352,
+        "partiallyTransparentEdgePixelCount": 9477,
+        "nonTransparentBoundingBox": [
+          15,
+          21,
+          301,
+          294
+        ]
+      },
+      "gameUse": "Employee access and security"
+    },
+    {
+      "id": "object_15_business_briefcase",
+      "order": 15,
+      "file": "object_15_business_briefcase.png",
+      "width": 316,
+      "height": 316,
+      "transparency": {
+        "hasAlpha": true,
+        "hasFullyTransparentPixels": true,
+        "transparentPixelCount": 51513,
+        "partiallyTransparentEdgePixelCount": 8522,
+        "nonTransparentBoundingBox": [
+          15,
+          21,
+          301,
+          294
+        ]
+      },
+      "gameUse": "Executive travel and business inventory"
+    },
+    {
+      "id": "object_16_office_door",
+      "order": 16,
+      "file": "object_16_office_door.png",
+      "width": 316,
+      "height": 316,
+      "transparency": {
+        "hasAlpha": true,
+        "hasFullyTransparentPixels": true,
+        "transparentPixelCount": 58730,
+        "partiallyTransparentEdgePixelCount": 7174,
+        "nonTransparentBoundingBox": [
+          18,
+          21,
+          298,
+          294
+        ]
+      },
+      "gameUse": "Room navigation and access"
+    },
+    {
+      "id": "object_17_elevator_entrance",
+      "order": 17,
+      "file": "object_17_elevator_entrance.png",
+      "width": 316,
+      "height": 316,
+      "transparency": {
+        "hasAlpha": true,
+        "hasFullyTransparentPixels": true,
+        "transparentPixelCount": 52092,
+        "partiallyTransparentEdgePixelCount": 5793,
+        "nonTransparentBoundingBox": [
+          18,
+          0,
+          298,
+          316
+        ]
+      },
+      "gameUse": "Floor navigation and elevator travel"
+    },
+    {
+      "id": "object_18_presentation_screen",
+      "order": 18,
+      "file": "object_18_presentation_screen.png",
+      "width": 316,
+      "height": 316,
+      "transparency": {
+        "hasAlpha": true,
+        "hasFullyTransparentPixels": true,
+        "transparentPixelCount": 70765,
+        "partiallyTransparentEdgePixelCount": 7314,
+        "nonTransparentBoundingBox": [
+          15,
+          0,
+          301,
+          316
+        ]
+      },
+      "gameUse": "Presentations and briefings"
+    },
+    {
+      "id": "object_19_corporate_award_shield",
+      "order": 19,
+      "file": "object_19_corporate_award_shield.png",
+      "width": 316,
+      "height": 316,
+      "transparency": {
+        "hasAlpha": true,
+        "hasFullyTransparentPixels": true,
+        "transparentPixelCount": 61805,
+        "partiallyTransparentEdgePixelCount": 6604,
+        "nonTransparentBoundingBox": [
+          15,
+          0,
+          301,
+          316
+        ]
+      },
+      "gameUse": "Awards and company achievements"
+    },
+    {
+      "id": "object_20_coffee_machine",
+      "order": 20,
+      "file": "object_20_coffee_machine.png",
+      "width": 316,
+      "height": 316,
+      "transparency": {
+        "hasAlpha": true,
+        "hasFullyTransparentPixels": true,
+        "transparentPixelCount": 55768,
+        "partiallyTransparentEdgePixelCount": 7293,
+        "nonTransparentBoundingBox": [
+          18,
+          0,
+          298,
+          316
+        ]
+      },
+      "gameUse": "Office refreshments and staff amenity"
+    }
+  ]
+}

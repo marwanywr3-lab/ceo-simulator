@@ -1,0 +1,28 @@
+{
+  "verifiedAt": "2026-10-23",
+  "sources": [
+    "https://ai.google.dev/gemini-api/docs/models",
+    "https://platform.claude.com/docs/en/models/overview"
+  ],
+  "models": [
+    {
+      "provider": "gemini",
+      "id": "gemini-3.5-flash-lite",
+      "name": "Gemini 3.5 Flash-Lite"
+    },
+    {
+      "provider": "gemini",
+      "id": "gemini-3.8-flash",
+      "name": "Gemini 3.8 Flash"
+    },
+    {
+      "provider": "claude",
+      "id": "claude-haiku-5-5",
+      "name": "Claude Haiku 5.5"
+    }
+  ],
+  "unconfigured": [
+    "Claude Sonnet 5: exact API ID not confirmed from current overview; do not silently substitute Sonnet 5.5"
+  ],
+  "paidCallsMade": 0
+}

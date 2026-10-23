@@ -1,0 +1,16 @@
+{
+  "name": "ceo-simulator-api",
+  "main": "index.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ceo-simulator-development",
+      "database_id": "local-development-only",
+      "migrations_dir": "../../database/migrations",
+    },
+  ],
+  "vars": { "ALLOWED_ORIGIN": "http://127.0.0.1:5173" },
+  "observability": { "enabled": true },
+}

@@ -1,0 +1,652 @@
+{
+  "schemaVersion": 1,
+  "notes": "Crops are extracted from two AI-generated master boards. No artificial upscaling was applied.",
+  "boards": {
+    "landscapeOriginal": {
+      "file": "cities_board_landscape_original.png",
+      "width": 1672,
+      "height": 941,
+      "xBands": [
+        [
+          0,
+          19
+        ],
+        [
+          419,
+          432
+        ],
+        [
+          831,
+          843
+        ],
+        [
+          1242,
+          1255
+        ],
+        [
+          1654,
+          1672
+        ]
+      ],
+      "yBands": [
+        [
+          0,
+          8
+        ],
+        [
+          196,
+          205
+        ],
+        [
+          386,
+          395
+        ],
+        [
+          576,
+          586
+        ],
+        [
+          752,
+          761
+        ],
+        [
+          927,
+          941
+        ]
+      ]
+    },
+    "portraitOriginal": {
+      "file": "cities_board_portrait_original.png",
+      "width": 941,
+      "height": 1672,
+      "xBands": [
+        [
+          0,
+          22
+        ],
+        [
+          228,
+          243
+        ],
+        [
+          463,
+          479
+        ],
+        [
+          699,
+          714
+        ],
+        [
+          921,
+          941
+        ]
+      ],
+      "yBands": [
+        [
+          0,
+          7
+        ],
+        [
+          329,
+          340
+        ],
+        [
+          660,
+          666
+        ],
+        [
+          988,
+          1000
+        ],
+        [
+          1289,
+          1295
+        ],
+        [
+          1632,
+          1672
+        ]
+      ]
+    },
+    "landscapeCorrected": {
+      "file": "cities_board_landscape.png",
+      "width": 1212,
+      "height": 882,
+      "cellWidth": 288,
+      "cellHeight": 162,
+      "gutter": 12,
+      "margin": 12
+    },
+    "portraitCorrected": {
+      "file": "cities_board_portrait.png",
+      "width": 708,
+      "height": 1512,
+      "cellWidth": 162,
+      "cellHeight": 288,
+      "gutter": 12,
+      "margin": 12
+    }
+  },
+  "locations": [
+    {
+      "id": "location_01_riyadh_skyline",
+      "order": 1,
+      "landscape": {
+        "file": "location_01_riyadh_skyline_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          52,
+          8,
+          386,
+          196
+        ]
+      },
+      "portrait": {
+        "file": "location_01_riyadh_skyline_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          34,
+          7,
+          215,
+          329
+        ]
+      }
+    },
+    {
+      "id": "location_02_riyadh_business_street",
+      "order": 2,
+      "landscape": {
+        "file": "location_02_riyadh_business_street_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          464,
+          8,
+          798,
+          196
+        ]
+      },
+      "portrait": {
+        "file": "location_02_riyadh_business_street_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          262,
+          7,
+          443,
+          329
+        ]
+      }
+    },
+    {
+      "id": "location_03_jeddah_business_district",
+      "order": 3,
+      "landscape": {
+        "file": "location_03_jeddah_business_district_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          875,
+          8,
+          1209,
+          196
+        ]
+      },
+      "portrait": {
+        "file": "location_03_jeddah_business_district_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          498,
+          7,
+          679,
+          329
+        ]
+      }
+    },
+    {
+      "id": "location_04_dammam_business_district",
+      "order": 4,
+      "landscape": {
+        "file": "location_04_dammam_business_district_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          1287,
+          8,
+          1621,
+          196
+        ]
+      },
+      "portrait": {
+        "file": "location_04_dammam_business_district_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          727,
+          7,
+          908,
+          329
+        ]
+      }
+    },
+    {
+      "id": "location_05_saudi_industrial_city",
+      "order": 5,
+      "landscape": {
+        "file": "location_05_saudi_industrial_city_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          58,
+          205,
+          380,
+          386
+        ]
+      },
+      "portrait": {
+        "file": "location_05_saudi_industrial_city_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          35,
+          340,
+          215,
+          660
+        ]
+      }
+    },
+    {
+      "id": "location_06_logistics_warehouses",
+      "order": 6,
+      "landscape": {
+        "file": "location_06_logistics_warehouses_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          470,
+          205,
+          792,
+          386
+        ]
+      },
+      "portrait": {
+        "file": "location_06_logistics_warehouses_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          263,
+          340,
+          443,
+          660
+        ]
+      }
+    },
+    {
+      "id": "location_07_modern_office_tower",
+      "order": 7,
+      "landscape": {
+        "file": "location_07_modern_office_tower_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          881,
+          205,
+          1203,
+          386
+        ]
+      },
+      "portrait": {
+        "file": "location_07_modern_office_tower_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          499,
+          340,
+          679,
+          660
+        ]
+      }
+    },
+    {
+      "id": "location_08_small_office_building",
+      "order": 8,
+      "landscape": {
+        "file": "location_08_small_office_building_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          1293,
+          205,
+          1615,
+          386
+        ]
+      },
+      "portrait": {
+        "file": "location_08_small_office_building_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          727,
+          340,
+          907,
+          660
+        ]
+      }
+    },
+    {
+      "id": "location_09_luxury_global_headquarters",
+      "order": 9,
+      "landscape": {
+        "file": "location_09_luxury_global_headquarters_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          58,
+          395,
+          380,
+          576
+        ]
+      },
+      "portrait": {
+        "file": "location_09_luxury_global_headquarters_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          34,
+          666,
+          215,
+          988
+        ]
+      }
+    },
+    {
+      "id": "location_10_commercial_complex",
+      "order": 10,
+      "landscape": {
+        "file": "location_10_commercial_complex_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          470,
+          395,
+          792,
+          576
+        ]
+      },
+      "portrait": {
+        "file": "location_10_commercial_complex_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          262,
+          666,
+          443,
+          988
+        ]
+      }
+    },
+    {
+      "id": "location_11_commercial_restaurant",
+      "order": 11,
+      "landscape": {
+        "file": "location_11_commercial_restaurant_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          881,
+          395,
+          1203,
+          576
+        ]
+      },
+      "portrait": {
+        "file": "location_11_commercial_restaurant_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          498,
+          666,
+          679,
+          988
+        ]
+      }
+    },
+    {
+      "id": "location_12_modern_factory",
+      "order": 12,
+      "landscape": {
+        "file": "location_12_modern_factory_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          1293,
+          395,
+          1615,
+          576
+        ]
+      },
+      "portrait": {
+        "file": "location_12_modern_factory_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          727,
+          666,
+          908,
+          988
+        ]
+      }
+    },
+    {
+      "id": "location_13_technology_campus",
+      "order": 13,
+      "landscape": {
+        "file": "location_13_technology_campus_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          71,
+          586,
+          366,
+          752
+        ]
+      },
+      "portrait": {
+        "file": "location_13_technology_campus_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          43,
+          1000,
+          206,
+          1289
+        ]
+      }
+    },
+    {
+      "id": "location_14_fictional_bank_branch",
+      "order": 14,
+      "landscape": {
+        "file": "location_14_fictional_bank_branch_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          484,
+          586,
+          779,
+          752
+        ]
+      },
+      "portrait": {
+        "file": "location_14_fictional_bank_branch_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          271,
+          1000,
+          434,
+          1289
+        ]
+      }
+    },
+    {
+      "id": "location_15_convention_center",
+      "order": 15,
+      "landscape": {
+        "file": "location_15_convention_center_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          895,
+          586,
+          1190,
+          752
+        ]
+      },
+      "portrait": {
+        "file": "location_15_convention_center_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          507,
+          1000,
+          670,
+          1289
+        ]
+      }
+    },
+    {
+      "id": "location_16_business_hotel",
+      "order": 16,
+      "landscape": {
+        "file": "location_16_business_hotel_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          1307,
+          586,
+          1602,
+          752
+        ]
+      },
+      "portrait": {
+        "file": "location_16_business_hotel_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          736,
+          1000,
+          899,
+          1289
+        ]
+      }
+    },
+    {
+      "id": "location_17_distribution_center",
+      "order": 17,
+      "landscape": {
+        "file": "location_17_distribution_center_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          71,
+          761,
+          366,
+          927
+        ]
+      },
+      "portrait": {
+        "file": "location_17_distribution_center_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          30,
+          1295,
+          220,
+          1632
+        ]
+      }
+    },
+    {
+      "id": "location_18_commercial_construction_site",
+      "order": 18,
+      "landscape": {
+        "file": "location_18_commercial_construction_site_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          484,
+          761,
+          779,
+          927
+        ]
+      },
+      "portrait": {
+        "file": "location_18_commercial_construction_site_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          258,
+          1295,
+          448,
+          1632
+        ]
+      }
+    },
+    {
+      "id": "location_19_airport_business_entrance",
+      "order": 19,
+      "landscape": {
+        "file": "location_19_airport_business_entrance_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          895,
+          761,
+          1190,
+          927
+        ]
+      },
+      "portrait": {
+        "file": "location_19_airport_business_entrance_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          494,
+          1295,
+          684,
+          1632
+        ]
+      }
+    },
+    {
+      "id": "location_20_mixed_use_development",
+      "order": 20,
+      "landscape": {
+        "file": "location_20_mixed_use_development_landscape.png",
+        "width": 288,
+        "height": 162,
+        "sourceBox": [
+          1307,
+          761,
+          1602,
+          927
+        ]
+      },
+      "portrait": {
+        "file": "location_20_mixed_use_development_portrait.png",
+        "width": 162,
+        "height": 288,
+        "sourceBox": [
+          722,
+          1295,
+          912,
+          1632
+        ]
+      }
+    }
+  ]
+}

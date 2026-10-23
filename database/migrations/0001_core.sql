@@ -1,0 +1,13 @@
+PRAGMA foreign_keys = ON;
+CREATE TABLE users(id TEXT PRIMARY KEY,email TEXT NOT NULL UNIQUE,password_hash TEXT NOT NULL,salt TEXT NOT NULL,created_at INTEGER NOT NULL);
+CREATE TABLE auth_sessions(token_hash TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,expires_at INTEGER NOT NULL);
+CREATE INDEX sessions_user ON auth_sessions(user_id);
+CREATE TABLE careers(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,name TEXT NOT NULL,state TEXT NOT NULL CHECK(json_valid(state)),revision INTEGER NOT NULL DEFAULT 0 CHECK(revision>=0),last_command TEXT,created_at INTEGER NOT NULL);
+CREATE INDEX careers_owner ON careers(user_id);
+CREATE TABLE processed_commands(career_id TEXT NOT NULL REFERENCES careers(id) ON DELETE CASCADE,command_id TEXT NOT NULL,payload TEXT NOT NULL CHECK(json_valid(payload)),revision INTEGER NOT NULL,PRIMARY KEY(career_id,command_id));
+CREATE TABLE save_snapshots(id TEXT PRIMARY KEY,career_id TEXT NOT NULL REFERENCES careers(id) ON DELETE CASCADE,state TEXT NOT NULL CHECK(json_valid(state)),revision INTEGER NOT NULL,created_at INTEGER NOT NULL);
+CREATE INDEX snapshots_career ON save_snapshots(career_id);
+CREATE TABLE audit_logs(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,career_id TEXT REFERENCES careers(id) ON DELETE CASCADE,action TEXT NOT NULL,created_at INTEGER NOT NULL);
+CREATE TABLE rate_limits(bucket TEXT PRIMARY KEY,count INTEGER NOT NULL CHECK(count>0),expires_at INTEGER NOT NULL);
+CREATE TABLE schema_versions(version INTEGER PRIMARY KEY,description TEXT NOT NULL);
+INSERT INTO schema_versions VALUES(1,'Versioned aggregate saves; transactional commands, auth, snapshots and audit');

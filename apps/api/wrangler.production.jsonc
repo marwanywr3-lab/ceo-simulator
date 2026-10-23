@@ -1,0 +1,20 @@
+{
+  "name": "ceo-simulator-api",
+  "main": "index.ts",
+  "compatibility_date": "2026-10-23",
+  "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ceo-simulator-production",
+      "database_id": "4b7af862-4adb-402a-a66d-f6ce4ed016a5",
+      "migrations_dir": "../../database/migrations",
+    },
+  ],
+  "vars": {
+    "ALLOWED_ORIGIN": "https://marwanywr3-lab.github.io",
+  },
+  "observability": {
+    "enabled": true,
+  },
+}
